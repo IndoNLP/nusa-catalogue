@@ -89,12 +89,10 @@ axios.get(url, ).then(function(response) {
                 if (element == 'Ethical Risks') {
                     value = ethicalBadge(value) // calling "ethicalBadge" function to put some style to the value 
                 }
-                if (element == 'Paper Title') {
-                    paper_title = value;
-                }
                 else if (element == 'Link' || element == 'Paper Link'){
                     console.log(value)
                     value = linkuize(paper_title, value)
+                    element = 'Publication';
                 }
                  else if (element == 'Subsets') {
                     if (rows[idx].subsets) {
@@ -102,10 +100,15 @@ axios.get(url, ).then(function(response) {
                         value = createSubsets(subsets)
                     }
                 }
-                dataset.push({
-                    0: element,
-                    1: value
-                })
+            
+                if (element == 'Paper Title') {
+                    paper_title = value;
+                } else {
+                    dataset.push({
+                        0: element,
+                        1: value
+                    })
+                }
         });
 
         $(document).ready(function() {
