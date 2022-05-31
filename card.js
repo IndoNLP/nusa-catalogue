@@ -27,7 +27,7 @@ axios.get(url, ).then(function(response) {
         let headers = []
 
         // If you disable display name don't remove it from "headersWhiteList" becuase we use this as index key to push subsets to his row 
-        let headersWhiteList = ['Name','Link', 'Year', 'Volume', 'Unit', 'Paper Link', 'Access', 'Tasks', 'License', 'Language', 'Dialect', 'Domain', 'Form', 'Collection Style', 'Ethical Risks', 'Provider', 'Derived From', 'Script', 'Tokenized', 'Host', 'Cost', 'Test Split', 'Subsets']
+        let headersWhiteList = ['Name','Link', 'Year', 'Volume', 'Unit', 'Paper Title', 'Paper Link', 'Access', 'Tasks', 'License', 'Language', 'Dialect', 'Domain', 'Form', 'Collection Style', 'Ethical Risks', 'Provider', 'Derived From', 'Script', 'Tokenized', 'Host', 'Cost', 'Test Split', 'Subsets']
         
         $('.loading-spinner').hide()
 
@@ -83,14 +83,18 @@ axios.get(url, ).then(function(response) {
         let row = rows[idx].fileds;
 
         // For each on "headersWhiteList" to display data with defult sort
+        var paper_title = "";
         headersWhiteList.forEach(element => {
                 let value = row[headers.filter(h => h.title == element)[0].index].formattedValue ? row[headers.filter(h => h.title == element)[0].index].formattedValue : ''
                 if (element == 'Ethical Risks') {
                     value = ethicalBadge(value) // calling "ethicalBadge" function to put some style to the value 
                 }
-                    else if (element == 'Link' || element == 'Paper Link'){
+                if (element == 'Paper Title') {
+                    paper_title = value;
+                }
+                else if (element == 'Link' || element == 'Paper Link'){
                     console.log(value)
-                    value = linkuize(value, value)
+                    value = linkuize(paper_title, value)
                 }
                  else if (element == 'Subsets') {
                     if (rows[idx].subsets) {
