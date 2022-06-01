@@ -27,7 +27,7 @@ axios.get(url, ).then(function(response) {
         let headers = []
 
         // If you disable display name don't remove it from "headersWhiteList" becuase we use this as index key to push subsets to his row 
-        let headersWhiteList = ['Name','Link', 'HF Link' 'Year', 'Volume', 'Unit', 'Paper Title', 'Paper Link', 'Access', 'Tasks', 'License', 'Language', 'Dialect', 'Domain', 'Form', 'Collection Style', 'Ethical Risks', 'Provider', 'Derived From', 'Script', 'Tokenized', 'Host', 'Cost', 'Test Split', 'Subsets']
+        let headersWhiteList = ['Name','Link', 'HF Link', 'Year', 'Volume', 'Unit', 'Paper Title', 'Paper Link', 'Access', 'Tasks', 'License', 'Language', 'Dialect', 'Domain', 'Form', 'Collection Style', 'Ethical Risks', 'Provider', 'Derived From', 'Script', 'Tokenized', 'Host', 'Cost', 'Test Split', 'Subsets']
         
         $('.loading-spinner').hide()
 
@@ -96,10 +96,9 @@ axios.get(url, ).then(function(response) {
                 }
                 else if (element == 'HF Link'){
                     if (value != '-') {
-                        value = linkuize('[Hugging Face Link]', value);
-                        value = linkuize('[Dataset Link]', link) + ' | ' + value
+                        value = linkuize('[Dataset Link]', link) + ' | ' + linkuize('[Hugging Face Link]', value);
                     } else {
-                        value = linkuize('[Dataset Link]', link)
+                        value = linkuize('[Dataset Link]', link);
                     }
                 }
                  else if (element == 'Subsets') {
@@ -110,7 +109,7 @@ axios.get(url, ).then(function(response) {
                 }
             
                 if (element == 'Link'){
-                    link = value
+                    link = value;
                 } else if (element == 'Paper Title') {
                     paper_title = value;
                 } else {
