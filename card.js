@@ -95,10 +95,11 @@ axios.get(url, ).then(function(response) {
                     value = linkuize(paper_title, value)
                 }
                 else if (element == 'HF Link'){
+                    element = 'Dataset Link';
                     if (value != '-') {
-                        value = linkuize('[Dataset Link]', link) + ' | ' + linkuize('[Hugging Face Link]', value);
+                        value = linkuize('[Original Link]', link) + ' | ' + linkuize('[Hugging Face Link]', value);
                     } else {
-                        value = linkuize('[Dataset Link]', link);
+                        value = linkuize('[Original Link]', link);
                     }
                 }
                  else if (element == 'Subsets') {
