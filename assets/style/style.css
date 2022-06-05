@@ -1,7 +1,7 @@
 @import url(https://fonts.googleapis.com/css2?family=Cairo:wght@200;300;400;500;600;700;800;900&display=swap);
 
 :root {
-    --main-color: #ff7139;
+    --main-color: #ff6b30;
     --second-color: #fbb167;
     --bs-font-sans-serif: "Cairo", "Open Sans", -apple-system, BlinkMacSystemFont, "Segoe UI", "Helvetica Neue", Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol";
     --bs-font-family: "Cairo", sans-serif;
@@ -711,7 +711,7 @@ svg {
     --bs-table-bg: rgba(255, 255, 255, 0.39);
     --bs-table-accent-bg: transparent;
     --bs-table-striped-color: #4B4D4F;
-    --bs-table-striped-bg: rgba(224, 245, 84, 0.218);
+    --bs-table-striped-bg: rgba(177, 176, 170, 0.119);
     --bs-table-active-color: #27394b;
     --bs-table-active-bg: rgba(0, 0, 0, 0.1);
     --bs-table-hover-color: #4B4D4F;
