@@ -27,7 +27,7 @@ axios.get(url, ).then(function(response) {
         let headers = []
 
         // If you disable display name don't remove it from "headersWhiteList" becuase we use this as index key to push subsets to his row 
-        let headersWhiteList = ['Name','Link', 'Year', 'Volume', 'Unit', 'Paper Link', 'Access', 'Tasks', 'License', 'Language', 'Dialect', 'Domain', 'Form', 'Collection Style', 'Ethical Risks', 'Provider', 'Derived From', 'Script', 'Tokenized', 'Host', 'Cost', 'Test Split', 'Subsets']
+        let headersWhiteList = ['Name','Link', 'HF Link', 'Year', 'Volume', 'Unit', 'Paper Title', 'Paper Link', 'Access', 'Tasks', 'License', 'Language', 'Dialect', 'Domain', 'Form', 'Collection Style', 'Ethical Risks', 'Provider', 'Derived From', 'Script', 'Tokenized', 'Host', 'Cost', 'Test Split', 'Subsets']
         
         $('.loading-spinner').hide()
 
@@ -69,9 +69,9 @@ axios.get(url, ).then(function(response) {
                         })
                         if (preRow[0] != undefined && rows[preRow[0].index].subsets == undefined) {
                             rows[preRow[0].index].subsets = []
-                            rows[preRow[0].index].subsets.push({country: fileds[2].formattedValue, volume: fileds[13].formattedValue})
+                            rows[preRow[0].index].subsets.push({country: fileds[2].formattedValue, volume: fileds[29].formattedValue})
                         }else if (preRow[0] != undefined) {
-                            rows[preRow[0].index].subsets.push({country: fileds[2].formattedValue, volume: fileds[13].formattedValue})
+                            rows[preRow[0].index].subsets.push({country: fileds[2].formattedValue, volume: fileds[29].formattedValue})
                         }
                     }
                 }
@@ -83,14 +83,24 @@ axios.get(url, ).then(function(response) {
         let row = rows[idx].fileds;
 
         // For each on "headersWhiteList" to display data with defult sort
+        var link = "";
+        var paper_title = "";
         headersWhiteList.forEach(element => {
                 let value = row[headers.filter(h => h.title == element)[0].index].formattedValue ? row[headers.filter(h => h.title == element)[0].index].formattedValue : ''
                 if (element == 'Ethical Risks') {
                     value = ethicalBadge(value) // calling "ethicalBadge" function to put some style to the value 
                 }
-                    else if (element == 'Link' || element == 'Paper Link'){
-                    console.log(value)
-                    value = linkuize(value, value)
+                else if (element == 'Paper Link'){
+                    element = 'Publication';
+                    value = linkuize(paper_title, value)
+                }
+                else if (element == 'HF Link'){
+                    element = 'Dataset Link';
+                    if (value != '-') {
+                        value = linkuize('[Original Link]', link) + ' | ' + linkuize('[Hugging Face Link]', value);
+                    } else {
+                        value = linkuize('[Original Link]', link);
+                    }
                 }
                  else if (element == 'Subsets') {
                     if (rows[idx].subsets) {
@@ -98,14 +108,21 @@ axios.get(url, ).then(function(response) {
                         value = createSubsets(subsets)
                     }
                 }
-                dataset.push({
-                    0: element,
-                    1: value
-                })
+            
+                if (element == 'Link'){
+                    link = value;
+                } else if (element == 'Paper Title') {
+                    paper_title = value;
+                } else {
+                    dataset.push({
+                        0: element,
+                        1: value
+                    })
+                }
         });
 
         $(document).ready(function() {
-
+            console.log(dataset);
             $('#table_card').DataTable({
                 data: dataset,
                 columns: [{

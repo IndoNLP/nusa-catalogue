@@ -60,14 +60,16 @@ axios.get(url, {
         let headers = []
         let headersWhiteList = ['No.', 'Name', 'Link', 'Year', 'Volume', 'Unit', 'Paper Link', 'Access', 'Tasks']
         $('.loading-spinner').hide()
-
+    
         // Grabbing header's index's to help us to get value's of just by header index 
+        var headers_dict = new Object();
         rowData[1].values.filter(header => header.formattedValue != undefined).forEach((header, headerIndex) => {
+            headers_dict[header.formattedValue] = headerIndex;
             if (headersWhiteList.includes(header.formattedValue)){
                 headers.push({
                     index: headerIndex,
                     title: header.formattedValue
-                })
+                });
             }
         })
 
@@ -92,10 +94,10 @@ axios.get(url, {
         let dataset = []
         for (let index = 0; index < rows.length; index++) {
             const row = rows[index];
-            const hf_link = row[headers[2].index + 1].formattedValue
-            const pr_text = row[headers[2].index + 19].formattedValue
-            const pr_link = row[headers[2].index].formattedValue
-
+            const hf_link = row[headers_dict['HF Link']].formattedValue
+            const pr_text = row[headers_dict['Paper Title']].formattedValue
+            const pr_link = row[headers_dict['Paper Link']].formattedValue
+	
             dataset.push({
                 0: row[headers[0].index].formattedValue,
                 1: linkuize(row[headers[1].index].formattedValue, `card.html?${index}`),
