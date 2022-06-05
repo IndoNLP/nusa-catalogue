@@ -711,8 +711,8 @@ svg {
     --bs-table-bg: rgba(255, 255, 255, 0.39);
     --bs-table-accent-bg: transparent;
     --bs-table-striped-color: #4B4D4F;
-    --bs-table-striped-bg: rgba(216, 45, 45, 0.05);
-    --bs-table-active-color: #4B4D4F;
+    --bs-table-striped-bg: rgba(224, 245, 84, 0.218);
+    --bs-table-active-color: #27394b;
     --bs-table-active-bg: rgba(0, 0, 0, 0.1);
     --bs-table-hover-color: #4B4D4F;
     --bs-table-hover-bg: rgba(0, 0, 0, 0.075);
