@@ -1,8 +1,8 @@
 @import url(https://fonts.googleapis.com/css2?family=Cairo:wght@200;300;400;500;600;700;800;900&display=swap);
 
 :root {
-    --main-color: #F95959;
-    --second-color: #FB8A8A;
+    --main-color: #ff7139;
+    --second-color: #fbb167;
     --bs-font-sans-serif: "Cairo", "Open Sans", -apple-system, BlinkMacSystemFont, "Segoe UI", "Helvetica Neue", Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol";
     --bs-font-family: "Cairo", sans-serif;
     --bs-font-questions: "Cairo", sans-serif;
