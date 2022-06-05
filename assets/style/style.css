@@ -265,8 +265,8 @@ svg {
     }
 
     .navbar-expand-sm .navbar-nav .nav-link {
-        padding-right: .5rem;
-        padding-left: .5rem
+        padding-right: .75rem;
+        padding-left: .75rem
     }
 
     .navbar-expand-sm .navbar-nav-scroll {
@@ -307,8 +307,8 @@ svg {
     }
 
     .navbar-expand-md .navbar-nav .nav-link {
-        padding-right: .5rem;
-        padding-left: .5rem
+        padding-right: .75rem;
+        padding-left: .75rem
     }
 
     .navbar-expand-md .navbar-nav-scroll {
@@ -349,8 +349,8 @@ svg {
     }
 
     .navbar-expand-lg .navbar-nav .nav-link {
-        padding-right: .5rem;
-        padding-left: .5rem
+        padding-right: .75rem;
+        padding-left: .75rem
     }
 
     .navbar-expand-lg .navbar-nav-scroll {
@@ -391,8 +391,8 @@ svg {
     }
 
     .navbar-expand-xl .navbar-nav .nav-link {
-        padding-right: .5rem;
-        padding-left: .5rem
+        padding-right: .75rem;
+        padding-left: .75rem
     }
 
     .navbar-expand-xl .navbar-nav-scroll {
@@ -433,8 +433,8 @@ svg {
     }
 
     .navbar-expand-xxl .navbar-nav .nav-link {
-        padding-right: .5rem;
-        padding-left: .5rem
+        padding-right: .75rem;
+        padding-left: .75rem
     }
 
     .navbar-expand-xxl .navbar-nav-scroll {
@@ -474,8 +474,8 @@ svg {
 }
 
 .navbar-expand .navbar-nav .nav-link {
-    padding-right: .5rem;
-    padding-left: .5rem
+    padding-right: .75rem;
+    padding-left: .75rem
 }
 
 .navbar-expand .navbar-nav-scroll {
