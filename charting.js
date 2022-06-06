@@ -1,4 +1,4 @@
-const url = "https://sheets.googleapis.com/v4/spreadsheets/1YO-Vl4DO-lnp8sQpFlcX1cDtzxFoVkCmU1PVw_ZHJDg?key=AIzaSyC6dSsmyQw-No2CJz7zuCrMGglNa3WwKHU&includeGridData=true";
+const url = "https://sheets.googleapis.com/v4/spreadsheets/10v0aapVHjyOacvtcYft3TgGHeN0UiTYDlZ8c7xRu6tE?key=AIzaSyADKxcHRnRPiouvJurFmZd1Zz7VdrL-46Q&includeGridData=true";
 
 let headersWhiteList;
 let dataset;
@@ -114,6 +114,9 @@ function groupedBar(venue)
     var config = {
         type: 'bar',
         data: chartdata,
+        options: {
+            maintainAspectRatio: false,
+        }
     }
     myChart = new Chart(canvas, config);
 }
@@ -153,7 +156,8 @@ function plotBar(col)
                 autocolors: {
                 mode: 'data'
                 }
-            }
+            },
+            maintainAspectRatio: false,
         }
     }
     myChart = new Chart(canvas, config);
@@ -203,7 +207,14 @@ function getCounts(array, sorting = true)
 }
 
 axios.get(url, ).then(function(response) {
-    let rowData = response.data.sheets[0].data[0].rowData
+    let rowData = null;
+    for (let i=0; i < response.data.sheets.length; i++){
+        if (response.data.sheets[i].properties.title == 'filtered_cleaned'){
+            rowData = response.data.sheets[i].data[0].rowData;
+            break;
+        }
+    }
+
     let headers = []
     headersWhiteList = ['License', 'Year', 'Language', 'Dialect', 'Domain', 'Form', 'Ethical Risks', 'Script', 'Access', 'Tasks', 'Venue Type']
     $('.loading-spinner').hide()
@@ -249,7 +260,7 @@ axios.get(url, ).then(function(response) {
 
     var changedText = document.getElementById('myDropdown');
 
-    document.getElementById('myDropdown').addEventListener('change', function() {
+    $('#myDropdown').change(function(){
         if (this.value == "Venue Type")
             groupedBar(this.value) 
         else if(this.value == "Dialect"){
@@ -278,6 +289,8 @@ axios.get(url, ).then(function(response) {
         }   
     });
 
+    // Trigger initial change
+    $('#myDropdown').val('Year').change();
 })
 .catch(function(error) {
     console.log(error);
