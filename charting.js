@@ -20,18 +20,6 @@ function getSeries(data, idx){
             }
 
         }
-        else if(headersWhiteList[idx] == 'Dialect')
-        {
-            let dialect = data[index][idx]
-            if (dialect != 'other')
-            {
-                dialect = dialect.split(':')[0]
-                dialect = dialect.split('-')[1]
-            }
-            
-            series.push(dialect.trim())
-
-        }
         else
         {
             series.push(data[index][idx].trim())
@@ -216,7 +204,7 @@ axios.get(url, ).then(function(response) {
     }
 
     let headers = []
-    headersWhiteList = ['License', 'Year', 'Language', 'Dialect', 'Domain', 'Form', 'Ethical Risks', 'Script', 'Access', 'Tasks', 'Venue Type']
+    headersWhiteList = ['License', 'Year', 'Language', 'Dialect', 'Domain', 'Form', 'Ethical Risks', 'Access', 'Tasks']
     $('.loading-spinner').hide()
     
     // Grabbing header's index's to help us to get value's of just by header index 
@@ -261,29 +249,30 @@ axios.get(url, ).then(function(response) {
     var changedText = document.getElementById('myDropdown');
 
     $('#myDropdown').change(function(){
-        if (this.value == "Venue Type")
-            groupedBar(this.value) 
-        else if(this.value == "Dialect"){
-            let idx = headersWhiteList.indexOf("Dialect")
-            let series = getSeries(dataset, idx)
-            const [elements, counts] = getCounts(series)
-            console.log(elements)
-            let groupData = []
-
-            for (let i = 0; i < elements.length; i++){
-                let group = []
-
-                for (let j = 0; j < counts.length; j++) {
-                    if (counts[j] == i)
-                    {
-                        group.push({"id":elements[j], "joined": i + ""})
-                    }
-                }
-                if (group.length > 0)
-                    groupData.push({"name": "", "data":group})
-            }
-            createMap(groupData)
+        if (this.value == "Venue Type") {
+            groupedBar(this.value)
         }
+        // else if(this.value == "Dialect"){
+        //     let idx = headersWhiteList.indexOf("Dialect")
+        //     let series = getSeries(dataset, idx)
+        //     const [elements, counts] = getCounts(series)
+        //     console.log(elements)
+        //     let groupData = []
+
+        //     for (let i = 0; i < elements.length; i++){
+        //         let group = []
+
+        //         for (let j = 0; j < counts.length; j++) {
+        //             if (counts[j] == i)
+        //             {
+        //                 group.push({"id":elements[j], "joined": i + ""})
+        //             }
+        //         }
+        //         if (group.length > 0)
+        //             groupData.push({"name": "", "data":group})
+        //     }
+        //     createMap(groupData)
+        // }
         else{
             plotBar(this.value)
         }   
