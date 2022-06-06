@@ -56,7 +56,13 @@ axios.get(url, {
         // console.log('download', percentage);        
       }
 }).then(function(response) {
-        let rowData = response.data.sheets[0].data[0].rowData
+        let rowData = null;
+        for (let i=0; i < response.data.sheets.length; i++){
+            if (response.data.sheets[i].properties.title == 'filtered_cleaned'){
+                rowData = response.data.sheets[i].data[0].rowData
+                break;
+            }
+        }
         let headers = []
         let headersWhiteList = ['No.', 'Name', 'Link', 'Year', 'Volume', 'Unit', 'Paper Link', 'Access', 'Tasks']
         $('.loading-spinner').hide()
@@ -101,8 +107,8 @@ axios.get(url, {
             dataset.push({
                 0: row[headers[0].index].formattedValue,
                 1: linkuize(row[headers[1].index].formattedValue, `card.html?${index}`),
-                2: linkuize(getIcon(pr_text), pr_link)+'</br>'
-                +  linkuize(getIcon('hf'), hf_link),
+                2: linkuize(getIcon(pr_text), pr_link) +'</br>' +  
+                   (hf_link.includes("huggingface") ? linkuize(getIcon('hf'), hf_link) : ""),
                 3: row[headers[3].index].formattedValue,
                 4: row[headers[4].index].formattedValue ? row[headers[4].index].formattedValue : '',
                 5: row[headers[5].index].formattedValue ? row[headers[5].index].formattedValue : '',

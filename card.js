@@ -23,7 +23,14 @@ function createSubsets(subsetsValue) {
 //     onDownloadProgress: (pe) => document.querySelector('.main-container').innerHTML = "loading spinnehingie"
 // }
 axios.get(url, ).then(function(response) {
-        let rowData = response.data.sheets[0].data[0].rowData
+        let rowData = null;
+        for (let i=0; i < response.data.sheets.length; i++){
+            if (response.data.sheets[i].properties.title == 'filtered_cleaned'){
+                rowData = response.data.sheets[i].data[0].rowData;
+                break;
+            }
+        }
+
         let headers = []
 
         // If you disable display name don't remove it from "headersWhiteList" becuase we use this as index key to push subsets to his row 
