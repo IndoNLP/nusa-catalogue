@@ -47,6 +47,14 @@ function reformat_numbers(num) {
         return values[0] + 'M'
 }
 
+function lang_format(lang){
+    values = lang.split(',')
+    for (let i=0; i < values.length; i++){
+        values[i] = (values[i] == 'multilingual') ? '[MULTI]' : '[' + values[i].toUpperCase() + ']';
+    }
+    return values.join(' ')
+}
+
 axios.get(url, {
     // TODO:: Adding a download progress bar. * IT CANNOT BE APPLIED BECAUSE THE SIZE OF THE ENCODING DATA. *
     onDownloadProgress: progressEvent => {
@@ -64,7 +72,7 @@ axios.get(url, {
             }
         }
         let headers = []
-        let headersWhiteList = ['No.', 'Name', 'Link', 'Year', 'Volume', 'Unit', 'Paper Link', 'Access', 'Tasks']
+        let headersWhiteList = ['No.', 'Name', 'Link', 'Year', 'Language', 'Volume', 'Unit', 'Paper Link', 'Access', 'Tasks']
         $('.loading-spinner').hide()
     
         // Grabbing header's index's to help us to get value's of just by header index 
@@ -110,11 +118,12 @@ axios.get(url, {
                 2: linkuize(getIcon(pr_text), pr_link) +'</br>' +  
                    (hf_link.includes("huggingface") ? linkuize(getIcon('hf'), hf_link) : ""),
                 3: row[headers[3].index].formattedValue,
-                4: row[headers[4].index].formattedValue ? row[headers[4].index].formattedValue : '',
+                4: lang_format(row[headers[4].index].formattedValue),
                 5: row[headers[5].index].formattedValue ? row[headers[5].index].formattedValue : '',
-                6: linkuize(row[headers[6].index - 1].formattedValue, row[headers[6].index].formattedValue),
-                7: badgeRender(row[headers[7].index].formattedValue),
-                8: itemize(row[headers[8].index].formattedValue),
+                6: row[headers[6].index].formattedValue ? row[headers[6].index].formattedValue : '',
+                7: linkuize(row[headers[7].index - 1].formattedValue, row[headers[7].index].formattedValue),
+                8: badgeRender(row[headers[8].index].formattedValue),
+                9: itemize(row[headers[9].index].formattedValue)
             })
         }
 
@@ -125,6 +134,7 @@ axios.get(url, {
         });
 
         $(document).ready(function() {
+            console.log(headers)
             document.getElementById("numDatasets").textContent=dataset.length;
             $('#table').DataTable({
                 data: dataset,
@@ -135,7 +145,7 @@ axios.get(url, {
                 "pagingType": "numbers",
                 "bInfo": false,
                 'createdRow': function(row, data, dataIndex){
-                    $('td:eq(8)', row).css('min-width', '200px');
+                    $('td:eq(9)', row).css('min-width', '200px');
                  }
             });
 
