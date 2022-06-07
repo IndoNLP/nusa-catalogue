@@ -1,4 +1,4 @@
-const url = "https://sheets.googleapis.com/v4/spreadsheets/10v0aapVHjyOacvtcYft3TgGHeN0UiTYDlZ8c7xRu6tE?key=AIzaSyADKxcHRnRPiouvJurFmZd1Zz7VdrL-46Q&includeGridData=true";
+const url = "https://sheets.googleapis.com/v4/spreadsheets/17o83IvWxmtGLYridZis0nEprHhsZIMeFtHGtXV35h6M?key=AIzaSyADKxcHRnRPiouvJurFmZd1Zz7VdrL-46Q&includeGridData=true";
 function linkuize(text, link) {
     return `<a href = "${link}" target="_blank"> ${text}</a>`
 }
@@ -34,7 +34,7 @@ axios.get(url, ).then(function(response) {
         let headers = []
 
         // If you disable display name don't remove it from "headersWhiteList" becuase we use this as index key to push subsets to his row 
-        let headersWhiteList = ['Name','Link', 'HF Link', 'Year', 'Volume', 'Unit', 'Paper Title', 'Paper Link', 'Access', 'Tasks', 'License', 'Language', 'Dialect', 'Domain', 'Form', 'Collection Style', 'Ethical Risks', 'Provider', 'Derived From', 'Script', 'Tokenized', 'Host', 'Cost', 'Test Split', 'Subsets']
+        let headersWhiteList = ['Name','Link', 'HF Link', 'Year', 'Volume', 'Unit', 'Paper Title', 'Paper Link', 'Access', 'Tasks', 'License', 'Language', 'Dialect', 'Domain', 'Form', 'Collection Style', 'Ethical Risks', 'Provider', 'Derived From', 'Test Split', 'Subsets']
         
         $('.loading-spinner').hide()
 
@@ -45,7 +45,7 @@ axios.get(url, ).then(function(response) {
         }
         const idx = getIndex();
 
-        // Grabbing header's index's to help us to get value's of just by header index 
+        // Grabbing header's index's to help us to get value's of just by header index
         rowData[1].values.filter(header => header.formattedValue != undefined).forEach((header, headerIndex) => {
             if (headersWhiteList.includes(header.formattedValue)){
                 headers.push({
@@ -55,81 +55,60 @@ axios.get(url, ).then(function(response) {
             }
         })
 
-        let tempRows = []
-        rowData.filter(row => {
-            tempRows.push(row.values)
+        console.log(rowData)
+
+        let subsets = []
+        rowData.filter(row => row.values[0].formattedValue == idx).forEach((row, rowIndex) => {
+            console.log(row)
+            subsets.push(row.values)
         })
         
-        // Get row's values and grabbing subsets and push it to row array as one array 
-        let rows = []
-        for (let index = 2; index < tempRows.length; index++) {
-            const fileds = tempRows[index]
-            if (fileds != undefined) {
-                if (!isNaN(fileds[0].formattedValue)){
-                    rows.push({index: rows.length, fileds: fileds})
-                }else {
-                    if (fileds[1].formattedValue != undefined) {
-                        let preRow = rows.filter(row => {
-                            if (row.fileds[1].formattedValue == fileds[1].formattedValue) {
-                                return row
-                            }
-                        })
-                        if (preRow[0] != undefined && rows[preRow[0].index].subsets == undefined) {
-                            rows[preRow[0].index].subsets = []
-                            rows[preRow[0].index].subsets.push({country: fileds[2].formattedValue, volume: fileds[29].formattedValue})
-                        }else if (preRow[0] != undefined) {
-                            rows[preRow[0].index].subsets.push({country: fileds[2].formattedValue, volume: fileds[29].formattedValue})
-                        }
-                    }
-                }
-            }
-            
-        }
-
         let dataset = []
-        let row = rows[idx].fileds;
-
         // For each on "headersWhiteList" to display data with defult sort
         var link = "";
         var paper_title = "";
         headersWhiteList.forEach(element => {
-                let value = row[headers.filter(h => h.title == element)[0].index].formattedValue ? row[headers.filter(h => h.title == element)[0].index].formattedValue : ''
-                if (element == 'Ethical Risks') {
-                    value = ethicalBadge(value) // calling "ethicalBadge" function to put some style to the value 
-                }
-                else if (element == 'Paper Link'){
-                    element = 'Publication';
-                    value = linkuize(paper_title, value)
-                }
-                else if (element == 'HF Link'){
-                    element = 'Dataset Link';
-                    if (value != '-') {
-                        value = linkuize('[Original Link]', link) + ' | ' + linkuize('[Hugging Face Link]', value);
-                    } else {
-                        value = linkuize('[Original Link]', link);
-                    }
-                }
-                 else if (element == 'Subsets') {
-                    if (rows[idx].subsets) {
-                        let subsets = rows[idx].subsets
-                        value = createSubsets(subsets)
-                    }
-                }
-            
-                if (element == 'Link'){
-                    link = value;
-                } else if (element == 'Paper Title') {
-                    paper_title = value;
+            let value = subsets[0][headers.filter(h => h.title == element)[0].index].formattedValue
+            value = value ? value : ''
+            if (element == 'Ethical Risks') {
+                value = ethicalBadge(value) // calling "ethicalBadge" function to put some style to the value 
+            }
+            else if (element == 'Paper Link'){
+                element = 'Publication';
+                value = linkuize(paper_title, value)
+            }
+            else if (element == 'HF Link'){
+                element = 'Dataset Link';
+                if (value != '-') {
+                    value = linkuize('[Original Link]', link) + ' | ' + linkuize('[Hugging Face Link]', value);
                 } else {
-                    dataset.push({
-                        0: element,
-                        1: value
+                    value = linkuize('[Original Link]', link);
+                }
+            }
+                else if (element == 'Subsets') {
+                let subsetsData = []
+                for(let i = 1; i < subsets.length; i++) {
+                    subsetsData.push({
+                        country: subsets[i][headers.filter(h => h.title == "Subsets")[0].index].formattedValue,
+                        volume: subsets[i][headers.filter(h => h.title == "Volume")[0].index].formattedValue + " " + subsets[i][headers.filter(h => h.title == "Unit")[0].index].formattedValue
                     })
                 }
+                value = createSubsets(subsetsData)
+            }
+        
+            if (element == 'Link'){
+                link = value;
+            } else if (element == 'Paper Title') {
+                paper_title = value;
+            } else {
+                dataset.push({
+                    0: element,
+                    1: value
+                })
+            }
         });
 
         $(document).ready(function() {
-            console.log(dataset);
             $('#table_card').DataTable({
                 data: dataset,
                 columns: [{

@@ -106,25 +106,34 @@ axios.get(url, {
         
         //  Createing table data
         let dataset = []
+
+        previous_id = -1
         for (let index = 0; index < rows.length; index++) {
             const row = rows[index];
             const hf_link = row[headers_dict['HF Link']].formattedValue ? row[headers_dict['HF Link']].formattedValue : ''
             const pr_text = row[headers_dict['Paper Title']].formattedValue ? row[headers_dict['Paper Title']].formattedValue : ''
             const pr_link = row[headers_dict['Paper Link']].formattedValue ? row[headers_dict['Paper Link']].formattedValue : ''
-	
-            dataset.push({
-                0: row[headers[0].index].formattedValue,
-                1: linkuize(row[headers[1].index].formattedValue, `card.html?${index}`),
-                2: linkuize(getIcon(pr_text), pr_link) +'</br>' +  
-                   (hf_link.includes("huggingface") ? linkuize(getIcon('hf'), hf_link) : ""),
-                3: row[headers[3].index].formattedValue ? row[headers[3].index].formattedValue : '',
-                4: lang_format(row[headers[4].index].formattedValue ? row[headers[4].index].formattedValue: ''),
-                5: row[headers[5].index].formattedValue ? row[headers[5].index].formattedValue : '',
-                6: row[headers[6].index].formattedValue ? row[headers[6].index].formattedValue : '',
-                7: linkuize(row[headers[7].index - 1].formattedValue, row[headers[7].index].formattedValue),
-                8: badgeRender(row[headers[8].index].formattedValue ? row[headers[8].index].formattedValue : ''),
-                9: itemize(row[headers[9].index].formattedValue ? row[headers[9].index].formattedValue : '')
-            })
+
+            let id = row[headers[0].index].formattedValue
+            
+            if(id == previous_id) {
+                
+            } else {
+                dataset.push({
+                    0: row[headers[0].index].formattedValue,
+                    1: linkuize(row[headers[1].index].formattedValue, `card.html?${id}`),
+                    2: linkuize(getIcon(pr_text), pr_link) +'</br>' +  
+                       (hf_link.includes("huggingface") ? linkuize(getIcon('hf'), hf_link) : ""),
+                    3: row[headers[3].index].formattedValue ? row[headers[3].index].formattedValue : '',
+                    4: lang_format(row[headers[4].index].formattedValue ? row[headers[4].index].formattedValue: ''),
+                    5: row[headers[5].index].formattedValue ? row[headers[5].index].formattedValue : '',
+                    6: row[headers[6].index].formattedValue ? row[headers[6].index].formattedValue : '',
+                    7: linkuize(row[headers[7].index - 1].formattedValue, row[headers[7].index].formattedValue),
+                    8: badgeRender(row[headers[8].index].formattedValue ? row[headers[8].index].formattedValue : ''),
+                    9: itemize(row[headers[9].index].formattedValue ? row[headers[9].index].formattedValue : '')
+                })
+            }
+            previous_id = id
         }
 
         $.extend($.fn.dataTableExt.oSort, {
