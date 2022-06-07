@@ -25,7 +25,7 @@ function createSubsets(subsetsValue) {
 axios.get(url, ).then(function(response) {
         let rowData = null;
         for (let i=0; i < response.data.sheets.length; i++){
-            if (response.data.sheets[i].properties.title == 'filtered_cleaned'){
+            if (response.data.sheets[i].properties.title == 'All'){
                 rowData = response.data.sheets[i].data[0].rowData;
                 break;
             }

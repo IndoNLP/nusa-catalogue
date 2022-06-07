@@ -1,4 +1,4 @@
-const url = "https://sheets.googleapis.com/v4/spreadsheets/10v0aapVHjyOacvtcYft3TgGHeN0UiTYDlZ8c7xRu6tE?key=AIzaSyADKxcHRnRPiouvJurFmZd1Zz7VdrL-46Q&includeGridData=true";
+const url = "https://sheets.googleapis.com/v4/spreadsheets/17o83IvWxmtGLYridZis0nEprHhsZIMeFtHGtXV35h6M?key=AIzaSyADKxcHRnRPiouvJurFmZd1Zz7VdrL-46Q&includeGridData=true";
 
 function linkuize(text, link) {
     if(link != undefined)
@@ -66,7 +66,7 @@ axios.get(url, {
 }).then(function(response) {
         let rowData = null;
         for (let i=0; i < response.data.sheets.length; i++){
-            if (response.data.sheets[i].properties.title == 'filtered_cleaned'){
+            if (response.data.sheets[i].properties.title == 'All'){
                 rowData = response.data.sheets[i].data[0].rowData
                 break;
             }
@@ -108,22 +108,22 @@ axios.get(url, {
         let dataset = []
         for (let index = 0; index < rows.length; index++) {
             const row = rows[index];
-            const hf_link = row[headers_dict['HF Link']].formattedValue
-            const pr_text = row[headers_dict['Paper Title']].formattedValue
-            const pr_link = row[headers_dict['Paper Link']].formattedValue
+            const hf_link = row[headers_dict['HF Link']].formattedValue ? row[headers_dict['HF Link']].formattedValue : ''
+            const pr_text = row[headers_dict['Paper Title']].formattedValue ? row[headers_dict['Paper Title']].formattedValue : ''
+            const pr_link = row[headers_dict['Paper Link']].formattedValue ? row[headers_dict['Paper Link']].formattedValue : ''
 	
             dataset.push({
                 0: row[headers[0].index].formattedValue,
                 1: linkuize(row[headers[1].index].formattedValue, `card.html?${index}`),
                 2: linkuize(getIcon(pr_text), pr_link) +'</br>' +  
                    (hf_link.includes("huggingface") ? linkuize(getIcon('hf'), hf_link) : ""),
-                3: row[headers[3].index].formattedValue,
-                4: lang_format(row[headers[4].index].formattedValue),
+                3: row[headers[3].index].formattedValue ? row[headers[3].index].formattedValue : '',
+                4: lang_format(row[headers[4].index].formattedValue ? row[headers[4].index].formattedValue: ''),
                 5: row[headers[5].index].formattedValue ? row[headers[5].index].formattedValue : '',
                 6: row[headers[6].index].formattedValue ? row[headers[6].index].formattedValue : '',
                 7: linkuize(row[headers[7].index - 1].formattedValue, row[headers[7].index].formattedValue),
-                8: badgeRender(row[headers[8].index].formattedValue),
-                9: itemize(row[headers[9].index].formattedValue)
+                8: badgeRender(row[headers[8].index].formattedValue ? row[headers[8].index].formattedValue : ''),
+                9: itemize(row[headers[9].index].formattedValue ? row[headers[9].index].formattedValue : '')
             })
         }
 
@@ -134,7 +134,6 @@ axios.get(url, {
         });
 
         $(document).ready(function() {
-            console.log(headers)
             document.getElementById("numDatasets").textContent=dataset.length;
             $('#table').DataTable({
                 data: dataset,
