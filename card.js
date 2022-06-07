@@ -1,4 +1,4 @@
-const url = "https://sheets.googleapis.com/v4/spreadsheets/10v0aapVHjyOacvtcYft3TgGHeN0UiTYDlZ8c7xRu6tE?key=AIzaSyADKxcHRnRPiouvJurFmZd1Zz7VdrL-46Q&includeGridData=true";
+const url = "https://sheets.googleapis.com/v4/spreadsheets/17o83IvWxmtGLYridZis0nEprHhsZIMeFtHGtXV35h6M?key=AIzaSyADKxcHRnRPiouvJurFmZd1Zz7VdrL-46Q&includeGridData=true";
 function linkuize(text, link) {
     return `<a href = "${link}" target="_blank"> ${text}</a>`
 }
