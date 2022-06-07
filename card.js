@@ -18,10 +18,7 @@ function createSubsets(subsetsValue) {
     result += '</tbody></table>'
     return result
 }
-// this, alternatively, can be used for loading spinner
-// {
-//     onDownloadProgress: (pe) => document.querySelector('.main-container').innerHTML = "loading spinnehingie"
-// }
+
 axios.get(url, ).then(function(response) {
         let rowData = null;
         for (let i=0; i < response.data.sheets.length; i++){
