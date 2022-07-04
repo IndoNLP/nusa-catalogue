@@ -121,6 +121,11 @@ axios.get(url, {
         //  Createing table data
         let dataset = []
 
+        // Creating column filtering
+        let task_filter = new Set()
+        let lang_filter = new Set()
+
+
         previous_id = -1
         for (let index = 0; index < rows.length; index++) {
             const row = rows[index];
@@ -151,6 +156,15 @@ axios.get(url, {
                     9: itemize(row[headers[9].index].formattedValue ? row[headers[9].index].formattedValue : ''),
                     10: lang_tag(row[headers[4].index].formattedValue ? row[headers[4].index].formattedValue: '')
                 })
+
+                if (row[headers[4].index].formattedValue)
+                    langs = row[headers[4].index].formattedValue.split(",")
+                    for (let i=0; i < values.length; i++)
+                        lang_filter.add(langs[i].trim().toLowerCase())
+                    
+
+                if (row[headers[9].index].formattedValue)
+                    task_filter.add(row[headers[9].index].formattedValue)
             }
             previous_id = id
         }
@@ -163,7 +177,61 @@ axios.get(url, {
 
         $(document).ready(function() {
             document.getElementById("numDatasets").textContent=dataset.length;
-            $('#table').DataTable({
+
+            console.log(lang_filter);
+            for (let task of task_filter) {
+                $("#taskfilter").append(
+                    '<input type="checkbox" name="task" value="' + task.replaceAll(' ','-') + '"> ' + task + " "
+                    );
+            }
+            
+            for (let lang of lang_filter) {
+                $("#langfilter").append(
+                    '<input type="checkbox" name="lang" value="' + lang + '"> ' + lang + " "
+                    );
+            }
+            
+            // task filter
+            $.fn.dataTable.ext.search.push(
+                function( settings, searchData, index, rowData, counter ) {
+                  var filters = $('input:checkbox[name="task"]:checked').map(function() {
+                    return this.value.toLowerCase();
+                  }).get();
+                  
+                  if (filters.length === 0) {
+                    return true;
+                  }
+                  
+                  for (let filter of filters)
+                    if (searchData[9].toLowerCase().includes(filter)) {
+                      return true;
+                    }
+                  
+                  return false;
+                }
+            );
+
+            // language filter
+            $.fn.dataTable.ext.search.push(
+                function( settings, searchData, index, rowData, counter ) {
+                  var filters = $('input:checkbox[name="lang"]:checked').map(function() {
+                    return this.value.toLowerCase();
+                  }).get();
+                  
+                  if (filters.length === 0) {
+                    return true;
+                  }
+                  
+                  for (let filter of filters)
+                    if (searchData[4].toLowerCase().includes(filter)) {
+                      return true;
+                    }
+                  
+                  return false;
+                }
+            );
+
+            var table = $('#table').DataTable({
                 data: dataset,
                 columns: headers,
                 "lengthMenu": [10, 25, 50, 75, 100, 250],
@@ -182,10 +250,10 @@ axios.get(url, {
                  ],
             });
 
-
+            $('input:checkbox').on('change', function () {
+                table.draw();
+             });
         });
-
-
 
     })
     .catch(function(error) {
