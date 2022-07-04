@@ -50,9 +50,23 @@ function reformat_numbers(num) {
 function lang_format(lang){
     values = lang.split(',')
     for (let i=0; i < values.length; i++){
-        values[i] = (values[i] == 'multilingual') ? '[MULTI]' : '[' + values[i].toUpperCase() + ']';
+        const lower = values[i].toLowerCase().trim();
+        title = (lang_alt[lower] != undefined) ?  lang_alt[lower] : '';
+        values[i] = '<span class="badge bg-info" title=' + title + '>' + 
+                    values[i].toLowerCase().trim() + 
+                    '</span>';
     }
     return values.join(' ')
+}
+
+// expand language name as a hidden tag for better searching
+function lang_tag(lang){
+    values = lang.split(',')
+    for (let i=0; i < values.length; i++){
+        const lower = values[i].toLowerCase().trim();
+        values[i] = (lang_alt[lower] != undefined) ?  lang_alt[lower] : '';
+    }
+    return values.join(', ')
 }
 
 axios.get(url, {
@@ -72,7 +86,7 @@ axios.get(url, {
             }
         }
         let headers = []
-        let headersWhiteList = ['No.', 'Name', 'Link', 'Year', 'Language', 'Volume', 'Unit', 'Paper Link', 'Access', 'Tasks']
+        let headersWhiteList = ['No.', 'Name', 'Link', 'Year', 'Language', 'Volume', 'Unit', 'Paper Link', 'Access', 'Tasks', 'Tags']
         $('.loading-spinner').hide()
     
         // Grabbing header's index's to help us to get value's of just by header index 
@@ -111,8 +125,12 @@ axios.get(url, {
         for (let index = 0; index < rows.length; index++) {
             const row = rows[index];
             const hf_link = row[headers_dict['HF Link']].formattedValue ? row[headers_dict['HF Link']].formattedValue : ''
+            const data_link = row[headers_dict['Link']].formattedValue ? row[headers_dict['Link']].formattedValue : ''
+            const data_icon = data_link.includes("github") ? "github" : "download"
             const pr_text = row[headers_dict['Paper Title']].formattedValue ? row[headers_dict['Paper Title']].formattedValue : ''
             const pr_link = row[headers_dict['Paper Link']].formattedValue ? row[headers_dict['Paper Link']].formattedValue : ''
+            
+           
 
             let id = row[headers[0].index].formattedValue
             
@@ -122,7 +140,7 @@ axios.get(url, {
                 dataset.push({
                     0: row[headers[0].index].formattedValue,
                     1: linkuize(row[headers[1].index].formattedValue, `card.html?${id}`),
-                    2: linkuize(getIcon(pr_text), pr_link) +'</br>' +  
+                    2: (data_link.includes("https") ? linkuize(getIcon(data_icon),  data_link) : "") +  
                        (hf_link.includes("huggingface") ? linkuize(getIcon('hf'), hf_link) : ""),
                     3: row[headers[3].index].formattedValue ? row[headers[3].index].formattedValue : '',
                     4: lang_format(row[headers[4].index].formattedValue ? row[headers[4].index].formattedValue: ''),
@@ -130,7 +148,8 @@ axios.get(url, {
                     6: row[headers[6].index].formattedValue ? row[headers[6].index].formattedValue : '',
                     7: linkuize(row[headers[7].index - 1].formattedValue, row[headers[7].index].formattedValue),
                     8: badgeRender(row[headers[8].index].formattedValue ? row[headers[8].index].formattedValue : ''),
-                    9: itemize(row[headers[9].index].formattedValue ? row[headers[9].index].formattedValue : '')
+                    9: itemize(row[headers[9].index].formattedValue ? row[headers[9].index].formattedValue : ''),
+                    10: lang_tag(row[headers[4].index].formattedValue ? row[headers[4].index].formattedValue: '')
                 })
             }
             previous_id = id
@@ -153,9 +172,16 @@ axios.get(url, {
                 "pagingType": "numbers",
                 "bInfo": false,
                 'createdRow': function(row, data, dataIndex){
-                    $('td:eq(9)', row).css('min-width', '200px');
-                 }
+                    $('td:eq(10)', row).css('min-width', '200px');
+                 },
+                columnDefs: [
+                    {
+                        targets: [10], 
+                        visible: false
+                    },
+                 ],
             });
+
 
         });
 
