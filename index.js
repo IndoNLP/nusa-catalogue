@@ -110,9 +110,13 @@ axios.get(url, {
         previous_id = -1
         for (let index = 0; index < rows.length; index++) {
             const row = rows[index];
-            const hf_link = row[headers_dict['HF Link']].formattedValue ? row[headers_dict['HF Link']].formattedValue : ''
+            const hf_link = row[headers_dict['Link']].formattedValue ? row[headers_dict['Link']].formattedValue : ''
+            const data_link = row[headers_dict['HF Link']].formattedValue ? row[headers_dict['HF Link']].formattedValue : ''
+            const data_icon = data_link.includes("github") ? "github" : "download"
             const pr_text = row[headers_dict['Paper Title']].formattedValue ? row[headers_dict['Paper Title']].formattedValue : ''
             const pr_link = row[headers_dict['Paper Link']].formattedValue ? row[headers_dict['Paper Link']].formattedValue : ''
+            
+           
 
             let id = row[headers[0].index].formattedValue
             
@@ -122,7 +126,7 @@ axios.get(url, {
                 dataset.push({
                     0: row[headers[0].index].formattedValue,
                     1: linkuize(row[headers[1].index].formattedValue, `card.html?${id}`),
-                    2: linkuize(getIcon(pr_text), pr_link) +'</br>' +  
+                    2: (data_link.includes("https") ? linkuize(getIcon(data_icon),  data_link) : "") +  
                        (hf_link.includes("huggingface") ? linkuize(getIcon('hf'), hf_link) : ""),
                     3: row[headers[3].index].formattedValue ? row[headers[3].index].formattedValue : '',
                     4: lang_format(row[headers[4].index].formattedValue ? row[headers[4].index].formattedValue: ''),
