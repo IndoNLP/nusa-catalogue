@@ -52,7 +52,7 @@ function lang_format(lang){
     for (let i=0; i < values.length; i++){
         const lower = values[i].toLowerCase().trim();
         title = (lang_alt[lower] != undefined) ?  lang_alt[lower] : '';
-        values[i] = '<span class="badge bg-info" title=' + title + '>' + 
+        values[i] = '<span class="badge bg-info">' + 
                     values[i].toLowerCase().trim() + 
                     '</span>';
     }
@@ -178,18 +178,34 @@ axios.get(url, {
         $(document).ready(function() {
             document.getElementById("numDatasets").textContent=dataset.length;
 
-            console.log(lang_filter);
-            for (let task of task_filter) {
+
+            for (let task of Array.from(task_filter).sort()) {
                 $("#taskfilter").append(
-                    '<input type="checkbox" name="task" value="' + task.replaceAll(' ','-') + '"> ' + task + " "
+                    '<label class="badge bg-secondary btn"> <input class="badge" type="checkbox" name="task" value="' + 
+                    task.replaceAll(' ','-') + '"> ' + 
+                    task + "</label> " 
                     );
             }
             
-            for (let lang of lang_filter) {
+            for (let lang of Array.from(lang_filter).sort()) {
+                lang_txt = lang
+                if (lang_alt[lang] != undefined)
+                    lang_txt = lang_alt[lang] + " - " + lang;    
+
                 $("#langfilter").append(
-                    '<input type="checkbox" name="lang" value="' + lang + '"> ' + lang + " "
+                    '<label class="badge bg-secondary btn"> <input class="badge" type="checkbox" name="lang" value="' + 
+                    lang + '"> ' + 
+                    lang_txt + "</label> " 
                     );
             }
+
+	$('label.btn').on('click','input', function(e){
+	  e.stopPropagation();
+	  $(this).attr('checked', !$(this).attr('checked'));
+	  $(e.target).closest('label').toggleClass('bg-secondary');
+	  $(e.target).closest('label').toggleClass('bg-success');
+	});
+
             
             // task filter
             $.fn.dataTable.ext.search.push(

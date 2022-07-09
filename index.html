@@ -56,15 +56,31 @@
               </h5>
             </div>
             <p class="font-italic">There are currently <span class="fw-bold text-primary" id = "numDatasets"> ... </span> datasets. Click on the dataset to show its expanded data card form.</p>
-            <div style="display: flex;">
-              <div style="flex: 70%;" id="taskfilter">
-                <h5> Filter by Task </h5>
-              </div>
-              <div style="flex: 50%;" id="langfilter">
-                <h5> Filter by Language </h5>
+
+            <div class="filter-container">
+              <button class="btn bg-warning" onclick="showFilterBox()">Advanced Search</button>
+              <div id="filterbox">
+                <div style="display: flex;">
+                  <div style="flex: 70%;" id="taskfilter">
+                    <h6> Filter by Task </h5>
+                  </div>
+                  <div style="flex: 30%;" id="langfilter">
+                    <h6> Filter by Language </h5>
+                  </div>
+                </div>
               </div>
             </div>
-
+            
+            <script>
+            function showFilterBox() {
+              var x = document.getElementById("filterbox");
+              if (x.style.display === "block") {
+                x.style.display = "none";
+              } else {
+                x.style.display = "block";
+              }
+            }
+            </script>
 
             <table
               class="table table-container table-striped"
@@ -117,6 +133,7 @@
     <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
     <script src="https://cdn.datatables.net/1.11.3/js/jquery.dataTables.min.js"></script>
     <script src="https://cdn.datatables.net/1.11.3/js/dataTables.bootstrap5.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
     <script type="text/javascript" src="icons.js"></script>
     <script type="text/javascript" src="languages.js"></script>
     <script type="text/javascript" src="index.js"></script>
