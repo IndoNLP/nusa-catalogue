@@ -78,6 +78,15 @@ svg {
     vertical-align: middle
 }
 
+.filter-container {
+    padding: 5px;
+    margin:  3px;
+}
+
+#filterbox {
+    display: none;
+}
+
 .container,
 .container-fluid,
 .container-lg,
