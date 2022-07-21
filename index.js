@@ -86,7 +86,7 @@ axios.get(url, {
             }
         }
         let headers = []
-        let headersWhiteList = ['No.', 'Name', 'Link', 'Year', 'Language', 'Volume', 'Unit', 'Paper Link', 'Access', 'Tasks', 'Tags']
+        let headersWhiteList = ['No.', 'Name', 'Link', 'Year', 'Language', 'Volume', 'Unit', 'Paper Link', 'Collection Style', 'Tasks', 'Tags']
         $('.loading-spinner').hide()
     
         // Grabbing header's index's to help us to get value's of just by header index 
