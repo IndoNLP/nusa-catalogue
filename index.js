@@ -86,7 +86,7 @@ axios.get(url, {
             }
         }
         let headers = []
-        let headersWhiteList = ['No.', 'Name', 'Link', 'Year', 'Language', 'Volume', 'Unit', 'Paper Link', 'Collection Style', 'Tasks', 'Tags']
+        let headersWhiteList = ['No.', 'Name', 'Link', 'Year', 'Language', 'Collection Style', 'Volume', 'Unit', 'Paper Link', 'Tasks', 'Tags']
         $('.loading-spinner').hide()
     
         // Grabbing header's index's to help us to get value's of just by header index 
@@ -125,7 +125,6 @@ axios.get(url, {
         let task_filter = new Set()
         let lang_filter = new Set()
 
-
         previous_id = -1
         for (let index = 0; index < rows.length; index++) {
             const row = rows[index];
@@ -138,7 +137,6 @@ axios.get(url, {
            
 
             let id = row[headers[0].index].formattedValue
-            
             if(id == previous_id) {
                 
             } else {
@@ -151,8 +149,8 @@ axios.get(url, {
                     4: lang_format(row[headers[4].index].formattedValue ? row[headers[4].index].formattedValue: ''),
                     5: row[headers[5].index].formattedValue ? row[headers[5].index].formattedValue : '',
                     6: row[headers[6].index].formattedValue ? row[headers[6].index].formattedValue : '',
-                    7: linkuize(row[headers[7].index - 1].formattedValue, row[headers[7].index].formattedValue),
-                    8: badgeRender(row[headers[8].index].formattedValue ? row[headers[8].index].formattedValue : ''),
+                    7: row[headers[7].index].formattedValue ? row[headers[7].index].formattedValue : '',
+                    8: linkuize(pr_text, pr_link),
                     9: itemize(row[headers[9].index].formattedValue ? row[headers[9].index].formattedValue : ''),
                     10: lang_tag(row[headers[4].index].formattedValue ? row[headers[4].index].formattedValue: '')
                 })
