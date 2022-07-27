@@ -86,7 +86,7 @@ axios.get(url, {
             }
         }
         let headers = []
-        let headersWhiteList = ['No.', 'Name', 'Link', 'Year', 'Language', 'Volume', 'Unit', 'Paper Link', 'Access', 'Tasks', 'Tags']
+        let headersWhiteList = ['No.', 'Name', 'Link', 'Year', 'Language', 'Collection Style', 'Volume', 'Unit', 'Paper Link', 'Tasks', 'Tags']
         $('.loading-spinner').hide()
     
         // Grabbing header's index's to help us to get value's of just by header index 
@@ -125,8 +125,8 @@ axios.get(url, {
         let task_filter = new Set()
         let lang_filter = new Set()
 
-
         previous_id = -1
+        console.log('headers_dict' + JSON. stringify(headers_dict));
         for (let index = 0; index < rows.length; index++) {
             const row = rows[index];
             const hf_link = row[headers_dict['HF Link']].formattedValue ? row[headers_dict['HF Link']].formattedValue : ''
@@ -134,25 +134,23 @@ axios.get(url, {
             const data_icon = data_link.includes("github") ? "github" : "download"
             const pr_text = row[headers_dict['Paper Title']].formattedValue ? row[headers_dict['Paper Title']].formattedValue : ''
             const pr_link = row[headers_dict['Paper Link']].formattedValue ? row[headers_dict['Paper Link']].formattedValue : ''
-            
-           
+            const loader_name = row[headers_dict['Dataloader']].formattedValue ? row[headers_dict['Dataloader']].formattedValue : ''
 
             let id = row[headers[0].index].formattedValue
-            
             if(id == previous_id) {
                 
             } else {
                 dataset.push({
                     0: row[headers[0].index].formattedValue,
-                    1: linkuize(row[headers[1].index].formattedValue, `card.html?${id}`),
+                    1: linkuize(row[headers[1].index].formattedValue, `card.html?${loader_name}`),
                     2: (data_link.includes("https") ? linkuize(getIcon(data_icon),  data_link) : "") +  
                        (hf_link.includes("huggingface") ? linkuize(getIcon('hf'), hf_link) : ""),
                     3: row[headers[3].index].formattedValue ? row[headers[3].index].formattedValue : '',
                     4: lang_format(row[headers[4].index].formattedValue ? row[headers[4].index].formattedValue: ''),
                     5: row[headers[5].index].formattedValue ? row[headers[5].index].formattedValue : '',
                     6: row[headers[6].index].formattedValue ? row[headers[6].index].formattedValue : '',
-                    7: linkuize(row[headers[7].index - 1].formattedValue, row[headers[7].index].formattedValue),
-                    8: badgeRender(row[headers[8].index].formattedValue ? row[headers[8].index].formattedValue : ''),
+                    7: row[headers[7].index].formattedValue ? row[headers[7].index].formattedValue : '',
+                    8: linkuize(pr_text, pr_link),
                     9: itemize(row[headers[9].index].formattedValue ? row[headers[9].index].formattedValue : ''),
                     10: lang_tag(row[headers[4].index].formattedValue ? row[headers[4].index].formattedValue: '')
                 })
