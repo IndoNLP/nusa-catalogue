@@ -31,7 +31,7 @@ axios.get(url, ).then(function(response) {
         let headers = []
 
         // If you disable display name don't remove it from "headersWhiteList" becuase we use this as index key to push subsets to his row 
-        let headersWhiteList = ['Name','Link', 'HF Link', 'Year', 'Volume', 'Unit', 'Paper Title', 'Paper Link', 'Access', 'Tasks', 'License', 'Language', 'Dialect', 'Domain', 'Form', 'Collection Style', 'Ethical Risks', 'Provider', 'Derived From', 'Test Split', 'Notes', 'Dataloader']
+        let headersWhiteList = ['Name','Link', 'HF Link', 'Year', 'Volume', 'Unit', 'Paper Title', 'Paper Link', 'Access', 'Tasks', 'License', 'Language', 'Dialect', 'Domain', 'Form', 'Collection Style', 'Ethical Risks', 'Provider', 'Derived From', 'Test Split', 'Notes', 'Dataloader','Implemented']
         
         $('.loading-spinner').hide()
 
@@ -53,7 +53,7 @@ axios.get(url, ).then(function(response) {
         })
 
         let subsets = []
-        rowData.filter(row => row.values[row.values.length-1].formattedValue == idx).forEach((row, rowIndex) => {
+        rowData.filter(row => row.values[row.values.length-2].formattedValue == idx).forEach((row, rowIndex) => {
             console.log(row)
             subsets.push(row.values)
         })
@@ -96,6 +96,8 @@ axios.get(url, ).then(function(response) {
             } else if (element == 'Paper Title') {
                 paper_title = value;
             } else if (element == 'Dataloader'){
+                // Skip
+            } else if (element == 'Implemented'){
                 // Skip
             } else {
                 dataset.push({
