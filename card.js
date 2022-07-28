@@ -103,7 +103,7 @@ axios.get(url, ).then(function(response) {
                     $("#loading-code").text($("#loading-code").text().replace("TMP_DSET_NAME",loader_name));
                     dataset.push({
                         0: "How to use?",
-                        1: '<button id="show-button" class="btn btn-warning btn-offset-search" onclick="showUsageBox()">Use in Datasets</button>'
+                        1: '<button id="show-button" class="btn btn-warning btn-offset-search" onclick="showUsageBox(\''+loader_name+'\')">Use in Datasets</button>'
                     })
                 } else {
                     dataset.push({

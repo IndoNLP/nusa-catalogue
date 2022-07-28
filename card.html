@@ -25,19 +25,37 @@
          <a href="javascript:void(0)" class="closebtn" onclick="showUsageBox()">&times;</a>
 
          <!-- Overlay content -->
-         <div class="overlay-content">
+         <div class="overlay-content" onclick="event.stopPropagation()">
             <div class="usage-header">
-                  How to load this dataset directly with the Datasets library
+                  Load this dataset directly with the Datasets library
+            </div>
+            <div class="usage-content">
+               First, install dependency and clone NusaCrowd
+               <!-- HTML generated using hilite.me -->
+            </div>
+            <div class="usage-content">
+               <div style="width: 100%; background: #ffffff; overflow:auto;border:solid gray;border-width:.1em .1em .1em .8em;padding:.2em .6em;"><pre style="margin: 0; line-height: 125%"><span style="color: #888888">pip install datasets</span>
+<span style="color: #888888">git clone https://github.com/IndoNLP/nusa-crowd.git</span>
+</pre></div>
+            </div>
+            <div class="usage-content">
+               <br/>
+               Then, the dataset can be downloaded locally by the python script below:
             </div>
             <div class="usage-content">
                <div class="usage-code">
-                  <pre>
-                     <code id="loading-code" class="language-python">from datasets import load_dataset
-                     dataset = load_dataset("nusacrowd/TMP_DSET_NAME")</code>
-                  </pre>
+                  <!-- HTML generated using hilite.me --><div class="loading-code" style="background: #ffffff; overflow:auto;width:auto;border:solid gray;border-width:.1em .1em .1em .8em;padding:.2em .6em;"><pre style="margin: 0; line-height: 125%"><span style="color: #008800; font-weight: bold">from</span> <span style="color: #0e84b5; font-weight: bold">datasets</span> <span style="color: #008800; font-weight: bold">import</span> load_dataset
+
+path <span style="color: #333333">=</span> <span style="background-color: #fff0f0">&quot;nusa-crowd/nusantara/nusa_datasets/<span id="dset_name">TMP</span>&quot;</span>
+dataset <span style="color: #333333">=</span> load_dataset(path)
+
+<span style="color: #888888"># see dataset sample:</span>
+<span style="color: #007020">print</span>(dataset[<span style="background-color: #fff0f0">&#39;train&#39;</span>]<span style="color: #333333">.</span>to_pandas())
+</pre></div>
+
                </div>
                <div class="usage-copy">
-                  <button id="copy-button" class="btn bg-info" onclick="copyText()">Copy</button>
+                  <button id="copy-button" class="btn" onclick="copyText()"><i class="fa fa-copy" onclick="copyText()"></i></button>
                   <div id="copy-text">Copied!</div>
                </div>
             </div>
@@ -62,7 +80,10 @@
       </main>
       </div>
       <script>
-      function showUsageBox() {
+      function showUsageBox(loader_name) {
+        var dset = document.getElementById("dset_name");
+        dset.innerHTML = loader_name;
+
         var x = document.getElementById("usagebox");
         if (x.style.display === "block") {
           x.style.display = "none";
@@ -73,7 +94,7 @@
       }
       function copyText() {
          /* Get the text field */
-         var text = $("#loading-code").text().replace("                     ","");
+         var text = $(".loading-code").text().replace("                     ","");
 
          /* Copy the text inside the text field */
          navigator.clipboard.writeText(text);

@@ -36,7 +36,7 @@
     height: 100%;
     width: 100%;
     position: fixed;
-    z-index: 3;
+    z-index: -1;
     left: 0;
     top: 0;
     background-color: rgb(0,0,0);
@@ -48,8 +48,9 @@
     z-index: 5;
     margin: auto;
     margin-top: 35vh;
-    width: 40%;
-    height: 18vh;
+    width: 50%;
+    min-width: 500px;
+    padding-bottom: 10px;
     background-color: rgb(255,255,255);
     border-radius: 15px;
 }
@@ -69,8 +70,9 @@ div.usage-header{
     z-index: 8;
     display: flex;
     text-align: left;
-    width: 90%;
+    width: 100%;
     padding-left: 10px;
+    padding-right: 10px;
 }
 
 .usage-header div{
@@ -79,7 +81,7 @@ div.usage-header{
 
 .usage-code{
     z-index: 9;    
-    width: 90%;
+    width: 100%;
 }
 
 .usage-code  pre code{
@@ -92,8 +94,9 @@ div.usage-header{
 .usage-copy{
     z-index: 10;
     display: inline-block;;
-    padding-top: 10px;
-    width: 10%;
+    padding-top: 5px;
+    margin-left: -60px;
+    width: 1%;
 }
 
 .usage-copy button#copy-button {
@@ -109,7 +112,7 @@ div.usage-header{
 .usage-copy div#copy-text{
     text-align: center;
     margin-top: -8px;
-    font-weight: bold;
     margin-left: 12px;
-    color: cornflowerblue;
+    font-size: 0.8em;
+    color: grey;
 }
