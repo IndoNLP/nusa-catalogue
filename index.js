@@ -86,7 +86,7 @@ axios.get(url, {
             }
         }
         let headers = []
-        let headersWhiteList = ['No.', 'Name', 'Link', 'Year', 'Language', 'Collection Style', 'Volume', 'Unit', 'Paper Link', 'Tasks', 'Tags']
+        let headersWhiteList = ['No.', 'Name', 'Link', 'Year', 'Language', 'Collection Style', 'Volume', 'Unit', 'Paper Link', 'Tasks', 'Tags', 'Dataloader','Implemented']
         $('.loading-spinner').hide()
     
         // Grabbing header's index's to help us to get value's of just by header index 
@@ -94,10 +94,14 @@ axios.get(url, {
         rowData[1].values.filter(header => header.formattedValue != undefined).forEach((header, headerIndex) => {
             headers_dict[header.formattedValue] = headerIndex;
             if (headersWhiteList.includes(header.formattedValue)){
-                headers.push({
-                    index: headerIndex,
-                    title: header.formattedValue
-                });
+                // do not put Dataloader and Implemented to table
+                console.log(header);
+                if (header.formattedValue != 'Dataloader' && header.formattedValue != 'Implemented') {
+                    headers.push({
+                        index: headerIndex,
+                        title: header.formattedValue
+                    });
+                }
             }
         })
 
@@ -135,6 +139,8 @@ axios.get(url, {
             const pr_text = row[headers_dict['Paper Title']].formattedValue ? row[headers_dict['Paper Title']].formattedValue : ''
             const pr_link = row[headers_dict['Paper Link']].formattedValue ? row[headers_dict['Paper Link']].formattedValue : ''
             const loader_name = row[headers_dict['Dataloader']].formattedValue ? row[headers_dict['Dataloader']].formattedValue : ''
+            const implemented = row[headers_dict['Implemented']].formattedValue ? row[headers_dict['Implemented']].formattedValue : ''
+        
 
             let id = row[headers[0].index].formattedValue
             if(id == previous_id) {
@@ -143,8 +149,10 @@ axios.get(url, {
                 dataset.push({
                     0: row[headers[0].index].formattedValue,
                     1: linkuize(row[headers[1].index].formattedValue, `card.html?${loader_name}`),
-                    2: (data_link.includes("https") ? linkuize(getIcon(data_icon),  data_link) : "") +  
-                       (hf_link.includes("huggingface") ? linkuize(getIcon('hf'), hf_link) : ""),
+                    2: (implemented == '1' ? '<a href="javascript:void(0)" onclick="showUsageBox(\''+loader_name+'\')"> <span class="badge bg-success">Load dataset <i class="fab fa-python"></i></span> </a>': "") +
+                       (hf_link.includes("huggingface") ? linkuize(getIcon('hf'), hf_link) : "") + 
+                       (data_link.includes("https") ? linkuize(getIcon(data_icon),  data_link) : ""),
+                        
                     3: row[headers[3].index].formattedValue ? row[headers[3].index].formattedValue : '',
                     4: lang_format(row[headers[4].index].formattedValue ? row[headers[4].index].formattedValue: ''),
                     5: row[headers[5].index].formattedValue ? row[headers[5].index].formattedValue : '',

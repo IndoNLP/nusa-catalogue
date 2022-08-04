@@ -62,6 +62,7 @@ axios.get(url, ).then(function(response) {
         // For each on "headersWhiteList" to display data with defult sort
         var link = "";
         var paper_title = "";
+        var loader_name = "";
         headersWhiteList.forEach(element => {
             let value = subsets[0][headers.filter(h => h.title == element)[0].index].formattedValue
             value = value ? value : ''
@@ -96,9 +97,20 @@ axios.get(url, ).then(function(response) {
             } else if (element == 'Paper Title') {
                 paper_title = value;
             } else if (element == 'Dataloader'){
-                // Skip
+                loader_name = value
             } else if (element == 'Implemented'){
-                // Skip
+                if (value == "1") {
+                    $("#loading-code").text($("#loading-code").text().replace("TMP_DSET_NAME",loader_name));
+                    dataset.push({
+                        0: "How to use?",
+                        1: '<button id="show-button" class="btn btn-warning btn-offset-search" onclick="showUsageBox(\''+loader_name+'\')">Use in Datasets</button>'
+                    })
+                } else {
+                    dataset.push({
+                        0: "How to use?",
+                        1: '<button id="show-button" class="btn btn-secondary btn-offset-search">Not implemented yet</button>'
+                    })
+                }
             } else {
                 dataset.push({
                     0: element,
