@@ -18,4 +18,18 @@ lang_alt =
  "tpi": "tok pisin",
  "hmo": "hiri motu",
  "tdt": "tetun dili",
+ "kaw": "kawi",
+ "ara": "arabic",
+ "spa": "spanish",
+ "jpn": "japanese",
+ "kor": "korean",
+ "fra": "french",
+ "btx": "batak karo",
+ "dyk": "dayak",
+ "hin": "hindi",
+ "rus": "russian",
+ "por": "portugese",
+ "tha": "thai",
+ "vie": "vietnamese",
+ "zho": "chinese"
 }
