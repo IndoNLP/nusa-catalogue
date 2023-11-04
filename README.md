@@ -1,12 +1,6 @@
-# IndoNLP 
+# NusaCrowd 
 
-The first online catalogue for Indonesian NLP datasets. This catalogue contains 200 datasets with more than 25 metadata annotations for each dataset. You can view the list of all datasets using the link of the webiste [https://indonlp.github.io](https://indonlp.github.io)
-
-> **Title** IndoNLP: Metadata Sourcing for Indonesian and Indonesia Local Languages Data Resources <br>
-> Authors:  <br>
-> 
->
-> **Abstract:** 
+The first online catalogue for South East Asia NLP datasets. This catalogue contains X datasets with more than Y metadata annotations for each dataset. You can view the list of all datasets using the link of the website.
 
 ## Metadata 
 
@@ -50,9 +44,7 @@ The first online catalogue for Indonesian NLP datasets. This catalogue contains 
 You can access the annoated dataset using `datasets`
 
 ```python
-from datasets import load_dataset 
-nusa_catalogue = load_dataset('')
-nusa_catalogue['train'][0]
+TO DO
 ```
 which gives the following output 
 
@@ -60,7 +52,7 @@ which gives the following output
 
 ```
 ## Contribution 
-The catalogue will be updated regularly. If you want to add a new dataset, use this [form](https://forms.gle/Hnqm4D7KhpRA59ij8).
+The catalogue will be updated regularly.
 
 ## Citation 
 
