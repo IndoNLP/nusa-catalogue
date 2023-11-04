@@ -1,4 +1,4 @@
-const url = "https://sheets.googleapis.com/v4/spreadsheets/1ibbywsC1tQ_sLPX8bUAjC-vrTrUqZgZA46W_sxWw4Ss?key=1eac3a9269175c46fba03da3aba54b77c0df2537&includeGridData=true";
+const url = "https://sheets.googleapis.com/v4/spreadsheets/1ibbywsC1tQ_sLPX8bUAjC-vrTrUqZgZA46W_sxWw4Ss?key=AIzaSyCGkxGwoqhEFrFhR9GQnWGslvb6biNIOrg&includeGridData=true";
 
 function linkuize(text, link) {
     if(link != undefined)
