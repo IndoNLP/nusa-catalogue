@@ -1,6 +1,6 @@
-# NusaCrowd 
+# SEACrowd 
 
-The first online catalogue for South East Asia NLP datasets. This catalogue contains X datasets with more than Y metadata annotations for each dataset. You can view the list of all datasets using the link of the website.
+The first online catalogue for SEACrowd datasets. This catalogue contains X datasets with more than Y metadata annotations for each dataset. You can view the list of all datasets using the link of the website.
 
 ## Metadata 
 
