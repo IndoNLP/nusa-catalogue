@@ -61,11 +61,14 @@ function lang_format(lang){
 
 // expand language name as a hidden tag for better searching
 function lang_tag(lang){
-    values = lang.split(',')
+    console.log(lang)
+    values = lang.split('\n')
     for (let i=0; i < values.length; i++){
         const lower = values[i].toLowerCase().trim();
-        values[i] = (lang_alt[lower] != undefined) ?  lang_alt[lower] : '';
+        // values[i] = (lang_alt[lower] != undefined) ?  lang_alt[lower] : '';
+        values[i] = lower
     }
+    console.log(values.join(', '))
     return values.join(', ')
 }
 
@@ -86,8 +89,15 @@ axios.get(url, {
             }
         }
         let headers = []
-        let headersWhiteList = ['No', 'Dataset name', 'Dataset paper title', 'Dataset or dataset paper publish year', 'Dataset URL', 'HuggingFace URL', 'Approval Status', 'Dataset paper URL']
+        let headersWhiteList = ['No', 'Dataset name', 'Dataset paper title', 'Dataset or dataset paper publish year', 'Dataset URL', 'HuggingFace URL', 'Approval Status', 'Dataset paper URL', 'Subset(s)']
         $('.loading-spinner').hide()
+        
+        let header_map = {
+            'Dataset or dataset paper publish year': 'Year',
+            'Dataset name': 'Name',
+            'Dataset paper title': 'Paper',
+            'Subset(s)': 'Language(s)'
+        }
 
         // Grabbing header's index's to help us to get value's of just by header index 
         var headers_dict = new Object();
@@ -137,7 +147,7 @@ axios.get(url, {
         console.log('headers_dict' + JSON. stringify(headers_dict));
         for (let index = 0; index < rows.length; index++) {
             const row = rows[index];
-            console.log(row)
+            // console.log(row)
             // const hf_link = row[headers_dict['HuggingFace URL']].formattedValue ? row[headers_dict['HuggingFace URL']].formattedValue : ''
             // const data_link = row[headers_dict['Dataset URL']].formattedValue ? row[headers_dict['Dataset URL']].formattedValue : ''
             // const data_icon = data_link.includes("github") ? "github" : "download"
@@ -159,12 +169,13 @@ axios.get(url, {
                     //    (hf_link.includes("huggingface") ? linkuize(getIcon('hf'), hf_link) : "") + 
                     //    (data_link.includes("https") ? linkuize(getIcon(data_icon),  data_link) : ""),
                     // 2: row[headers[2].index].formattedValue ? row[headers[2].index].formattedValue : '', 
-                    2: row[headers[2].index].formattedValue ? row[headers[2].index].formattedValue : '',
+                    2: lang_tag(row[headers[2].index].formattedValue ? row[headers[2].index].formattedValue : ''),
                     3: row[headers[3].index].formattedValue ? row[headers[3].index].formattedValue : '',
                     4: row[headers[4].index].formattedValue ? row[headers[4].index].formattedValue: '',
                     5: row[headers[5].index].formattedValue ? row[headers[5].index].formattedValue: '',
                     6: row[headers[6].index].formattedValue ? row[headers[6].index].formattedValue: '',
                     7: row[headers[7].index].formattedValue ? row[headers[7].index].formattedValue: '',
+                    8: row[headers[8].index].formattedValue ? row[headers[8].index].formattedValue: '',
                     // 8: row[headers[8].index].formattedValue ? row[headers[8].index].formattedValue: '',
                     // 4: row[headers[5].index].formattedValue ? row[headers[5].index].formattedValue : '',
                     // 5: row[headers[6].index].formattedValue ? row[headers[6].index].formattedValue : '',
@@ -174,8 +185,8 @@ axios.get(url, {
                     // 10: lang_tag(row[headers[4].index].formattedValue ? row[headers[4].index].formattedValue: '')
                 })
 
-                // if (row[headers[4].index].formattedValue)
-                //     langs = row[headers[4].index].formattedValue.split(",")
+                // if (row[headers[2].index].formattedValue)
+                //     langs = row[headers[2].index].formattedValue.split("\n")
                 //     for (let i=0; i < values.length; i++)
                 //         lang_filter.add(langs[i].trim().toLowerCase())
                     
@@ -196,53 +207,53 @@ axios.get(url, {
             document.getElementById("numDatasets").textContent=dataset.length;
 
 
-            for (let task of Array.from(task_filter).sort()) {
-                $("#taskfilter").append(
-                    '<label class="badge bg-secondary btn"> <input class="badge" type="checkbox" name="task" value="' + 
-                    task.replaceAll(' ','-') + '"> ' + 
-                    task + "</label> " 
-                    );
-            }
+            // for (let task of Array.from(task_filter).sort()) {
+            //     $("#taskfilter").append(
+            //         '<label class="badge bg-secondary btn"> <input class="badge" type="checkbox" name="task" value="' + 
+            //         task.replaceAll(' ','-') + '"> ' + 
+            //         task + "</label> " 
+            //         );
+            // }
             
-            for (let lang of Array.from(lang_filter).sort()) {
-                lang_txt = lang
-                if (lang_alt[lang] != undefined)
-                    lang_txt = lang_alt[lang] + " - " + lang;    
+            // for (let lang of Array.from(lang_filter).sort()) {
+            //     lang_txt = lang
+            //     if (lang_alt[lang] != undefined)
+            //         lang_txt = lang_alt[lang] + " - " + lang;    
 
-                $("#langfilter").append(
-                    '<label class="badge bg-secondary btn"> <input class="badge" type="checkbox" name="lang" value="' + 
-                    lang + '"> ' + 
-                    lang_txt + "</label> " 
-                    );
-            }
+            //     $("#langfilter").append(
+            //         '<label class="badge bg-secondary btn"> <input class="badge" type="checkbox" name="lang" value="' + 
+            //         lang + '"> ' + 
+            //         lang_txt + "</label> " 
+            //         );
+            // }
 
-	$('label.btn').on('click','input', function(e){
-	  e.stopPropagation();
-	  $(this).attr('checked', !$(this).attr('checked'));
-	  $(e.target).closest('label').toggleClass('bg-secondary');
-	  $(e.target).closest('label').toggleClass('bg-success');
-	});
+            // $('label.btn').on('click','input', function(e){
+            // e.stopPropagation();
+            // $(this).attr('checked', !$(this).attr('checked'));
+            // $(e.target).closest('label').toggleClass('bg-secondary');
+            // $(e.target).closest('label').toggleClass('bg-success');
+            // });
 
             
-            // task filter
-            $.fn.dataTable.ext.search.push(
-                function( settings, searchData, index, rowData, counter ) {
-                  var filters = $('input:checkbox[name="task"]:checked').map(function() {
-                    return this.value.toLowerCase();
-                  }).get();
+            // // task filter
+            // $.fn.dataTable.ext.search.push(
+            //     function( settings, searchData, index, rowData, counter ) {
+            //       var filters = $('input:checkbox[name="task"]:checked').map(function() {
+            //         return this.value.toLowerCase();
+            //       }).get();
                   
-                  if (filters.length === 0) {
-                    return true;
-                  }
+            //       if (filters.length === 0) {
+            //         return true;
+            //       }
                   
-                  for (let filter of filters)
-                    if (searchData[9].toLowerCase().includes(filter)) {
-                      return true;
-                    }
+            //       for (let filter of filters)
+            //         if (searchData[9].toLowerCase().includes(filter)) {
+            //           return true;
+            //         }
                   
-                  return false;
-                }
-            );
+            //       return false;
+            //     }
+            // );
 
             // language filter
             $.fn.dataTable.ext.search.push(
@@ -264,20 +275,34 @@ axios.get(url, {
                 }
             );
 
+            updated_headers = headers
+            for (let i = 0; i < updated_headers.length; i++) {
+                h = updated_headers[i].title
+                // console.log(h)
+                // console.log(header_map.hasOwnProperty(h))
+                if (header_map.hasOwnProperty(h)){
+                    updated_headers[i].title = header_map[h]
+                }
+            }
+
             var table = $('#table').DataTable({
                 data: dataset,
-                columns: headers,
+                columns: updated_headers,
                 "lengthMenu": [10, 25, 50, 75, 100, 250],
                 scrollCollapse: true,
                 paging: true,
                 "pagingType": "numbers",
                 "bInfo": false,
-                'createdRow': function(row, data, dataIndex){
-                    $('td:eq(10)', row).css('min-width', '200px');
+                // 'createdRow': function(row, data, dataIndex){
+                //     $('td:eq(10)', row).css('min-width', '200px');
+                //  },
+                 'createdRow': function(row, data, dataIndex){
+                    $('td:eq(8)', row).css('min-width', '200px');
                  },
                 columnDefs: [
                     {
-                        targets: [10], 
+                        // targets: [10], 
+                        targets: [7], 
                         visible: false
                     },
                  ],
