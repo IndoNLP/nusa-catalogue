@@ -80,7 +80,7 @@ axios.get(url, {
 }).then(function(response) {
         let rowData = null;
         for (let i=0; i < response.data.sheets.length; i++){
-            if (response.data.sheets[i].properties.title == 'All'){
+            if (response.data.sheets[i].properties.title == 'Approved Datasheets (Monitor)'){
                 rowData = response.data.sheets[i].data[0].rowData
                 break;
             }
