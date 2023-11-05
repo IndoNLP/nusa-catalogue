@@ -86,16 +86,18 @@ axios.get(url, {
             }
         }
         let headers = []
-        let headersWhiteList = ['No.', 'Name', 'Link', 'Year', 'Language', 'Collection Style', 'Volume', 'Unit', 'Paper Link', 'Tasks', 'Tags', 'Dataloader','Implemented']
+        let headersWhiteList = ['No', 'Dataset name', 'Dataset paper title', 'Dataset or dataset paper publish year', 'Dataset URL', 'HuggingFace URL', 'Approval Status', 'Dataset paper URL']
         $('.loading-spinner').hide()
-    
+
         // Grabbing header's index's to help us to get value's of just by header index 
         var headers_dict = new Object();
-        rowData[1].values.filter(header => header.formattedValue != undefined).forEach((header, headerIndex) => {
+        console.log(rowData[0])
+        rowData[0].values.forEach((header, headerIndex) => {
             headers_dict[header.formattedValue] = headerIndex;
             if (headersWhiteList.includes(header.formattedValue)){
                 // do not put Dataloader and Implemented to table
-                console.log(header);
+                console.log(">>>>>>> header")
+                console.log(header.formattedValue);
                 if (header.formattedValue != 'Dataloader' && header.formattedValue != 'Implemented') {
                     headers.push({
                         index: headerIndex,
@@ -112,7 +114,7 @@ axios.get(url, {
         
         // Grabbing row's values
         let rows = []
-        for (let index = 2; index < tempRows.length; index++) {
+        for (let index = 1; index < tempRows.length; index++) {
             const fileds = tempRows[index]
             if (fileds != undefined) {
                 if (!isNaN(fileds[0].formattedValue)){
@@ -129,18 +131,22 @@ axios.get(url, {
         let task_filter = new Set()
         let lang_filter = new Set()
 
+        console.log(headers)
+
         previous_id = -1
         console.log('headers_dict' + JSON. stringify(headers_dict));
         for (let index = 0; index < rows.length; index++) {
             const row = rows[index];
-            const hf_link = row[headers_dict['HuggingFace URL']].formattedValue ? row[headers_dict['HF Link']].formattedValue : ''
-            const data_link = row[headers_dict['Dataset URL']].formattedValue ? row[headers_dict['Link']].formattedValue : ''
-            const data_icon = data_link.includes("github") ? "github" : "download"
-            const pr_text = row[headers_dict['Dataset paper title']].formattedValue ? row[headers_dict['Paper Title']].formattedValue : ''
-            const pr_link = row[headers_dict['Dataset paper URL']].formattedValue ? row[headers_dict['Paper Link']].formattedValue : ''
-            const loader_name = row[headers_dict['Dataset name']].formattedValue ? row[headers_dict['Dataloader']].formattedValue : ''
-            const implemented = row[headers_dict['Approval Status']].formattedValue ? row[headers_dict['Implemented']].formattedValue : ''
+            console.log(row)
+            // const hf_link = row[headers_dict['HuggingFace URL']].formattedValue ? row[headers_dict['HuggingFace URL']].formattedValue : ''
+            // const data_link = row[headers_dict['Dataset URL']].formattedValue ? row[headers_dict['Dataset URL']].formattedValue : ''
+            // const data_icon = data_link.includes("github") ? "github" : "download"
+            // const pr_text = row[headers_dict['Dataset paper title']].formattedValue ? row[headers_dict['Dataset paper title']].formattedValue : ''
+            // const pr_link = row[headers_dict['Dataset paper URL']].formattedValue ? row[headers_dict['Dataset paper URL']].formattedValue : ''
+            const loader_name = row[headers_dict['Dataset name']].formattedValue ? row[headers_dict['Dataset name']].formattedValue : ''
+            // const implemented = row[headers_dict['Approval Status']].formattedValue ? row[headers_dict['Approval Status']].formattedValue : ''
         
+            // console.log(row)
 
             let id = row[headers[0].index].formattedValue
             if(id == previous_id) {
@@ -149,28 +155,33 @@ axios.get(url, {
                 dataset.push({
                     0: row[headers[0].index].formattedValue,
                     1: linkuize(row[headers[1].index].formattedValue, `card.html?${loader_name}`),
-                    2: (implemented == '1' ? '<a href="javascript:void(0)" onclick="showUsageBox(\''+loader_name+'\')"> <span class="badge bg-success">Load dataset <i class="fab fa-python"></i></span> </a>': "") +
-                       (hf_link.includes("huggingface") ? linkuize(getIcon('hf'), hf_link) : "") + 
-                       (data_link.includes("https") ? linkuize(getIcon(data_icon),  data_link) : ""),
-                        
+                    // 2: (implemented == '1' ? '<a href="javascript:void(0)" onclick="showUsageBox(\''+loader_name+'\')"> <span class="badge bg-success">Load dataset <i class="fab fa-python"></i></span> </a>': "") +
+                    //    (hf_link.includes("huggingface") ? linkuize(getIcon('hf'), hf_link) : "") + 
+                    //    (data_link.includes("https") ? linkuize(getIcon(data_icon),  data_link) : ""),
+                    // 2: row[headers[2].index].formattedValue ? row[headers[2].index].formattedValue : '', 
+                    2: row[headers[2].index].formattedValue ? row[headers[2].index].formattedValue : '',
                     3: row[headers[3].index].formattedValue ? row[headers[3].index].formattedValue : '',
-                    4: lang_format(row[headers[4].index].formattedValue ? row[headers[4].index].formattedValue: ''),
-                    5: row[headers[5].index].formattedValue ? row[headers[5].index].formattedValue : '',
-                    6: row[headers[6].index].formattedValue ? row[headers[6].index].formattedValue : '',
-                    7: row[headers[7].index].formattedValue ? row[headers[7].index].formattedValue : '',
-                    8: linkuize(pr_text, pr_link),
-                    9: itemize(row[headers[9].index].formattedValue ? row[headers[9].index].formattedValue : ''),
-                    10: lang_tag(row[headers[4].index].formattedValue ? row[headers[4].index].formattedValue: '')
+                    4: row[headers[4].index].formattedValue ? row[headers[4].index].formattedValue: '',
+                    5: row[headers[5].index].formattedValue ? row[headers[5].index].formattedValue: '',
+                    6: row[headers[6].index].formattedValue ? row[headers[6].index].formattedValue: '',
+                    7: row[headers[7].index].formattedValue ? row[headers[7].index].formattedValue: '',
+                    // 8: row[headers[8].index].formattedValue ? row[headers[8].index].formattedValue: '',
+                    // 4: row[headers[5].index].formattedValue ? row[headers[5].index].formattedValue : '',
+                    // 5: row[headers[6].index].formattedValue ? row[headers[6].index].formattedValue : '',
+                    // 6: row[headers[7].index].formattedValue ? row[headers[7].index].formattedValue : '',
+                    // 7: linkuize(pr_text, pr_link)//,
+                    // 9: itemize(row[headers[9].index].formattedValue ? row[headers[9].index].formattedValue : ''),
+                    // 10: lang_tag(row[headers[4].index].formattedValue ? row[headers[4].index].formattedValue: '')
                 })
 
-                if (row[headers[4].index].formattedValue)
-                    langs = row[headers[4].index].formattedValue.split(",")
-                    for (let i=0; i < values.length; i++)
-                        lang_filter.add(langs[i].trim().toLowerCase())
+                // if (row[headers[4].index].formattedValue)
+                //     langs = row[headers[4].index].formattedValue.split(",")
+                //     for (let i=0; i < values.length; i++)
+                //         lang_filter.add(langs[i].trim().toLowerCase())
                     
 
-                if (row[headers[9].index].formattedValue)
-                    task_filter.add(row[headers[9].index].formattedValue)
+                // if (row[headers[9].index].formattedValue)
+                //     task_filter.add(row[headers[9].index].formattedValue)
             }
             previous_id = id
         }
