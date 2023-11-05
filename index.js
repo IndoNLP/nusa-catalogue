@@ -133,13 +133,13 @@ axios.get(url, {
         console.log('headers_dict' + JSON. stringify(headers_dict));
         for (let index = 0; index < rows.length; index++) {
             const row = rows[index];
-            const hf_link = row[headers_dict['HF Link']].formattedValue ? row[headers_dict['HF Link']].formattedValue : ''
-            const data_link = row[headers_dict['Link']].formattedValue ? row[headers_dict['Link']].formattedValue : ''
+            const hf_link = row[headers_dict['HuggingFace URL']].formattedValue ? row[headers_dict['HF Link']].formattedValue : ''
+            const data_link = row[headers_dict['Dataset URL']].formattedValue ? row[headers_dict['Link']].formattedValue : ''
             const data_icon = data_link.includes("github") ? "github" : "download"
-            const pr_text = row[headers_dict['Paper Title']].formattedValue ? row[headers_dict['Paper Title']].formattedValue : ''
-            const pr_link = row[headers_dict['Paper Link']].formattedValue ? row[headers_dict['Paper Link']].formattedValue : ''
-            const loader_name = row[headers_dict['Dataloader']].formattedValue ? row[headers_dict['Dataloader']].formattedValue : ''
-            const implemented = row[headers_dict['Implemented']].formattedValue ? row[headers_dict['Implemented']].formattedValue : ''
+            const pr_text = row[headers_dict['Dataset paper title']].formattedValue ? row[headers_dict['Paper Title']].formattedValue : ''
+            const pr_link = row[headers_dict['Dataset paper URL']].formattedValue ? row[headers_dict['Paper Link']].formattedValue : ''
+            const loader_name = row[headers_dict['Dataset name']].formattedValue ? row[headers_dict['Dataloader']].formattedValue : ''
+            const implemented = row[headers_dict['Approval Status']].formattedValue ? row[headers_dict['Implemented']].formattedValue : ''
         
 
             let id = row[headers[0].index].formattedValue
