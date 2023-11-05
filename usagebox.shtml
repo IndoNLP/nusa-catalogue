@@ -15,7 +15,7 @@
             <div class="usage-content">
                <div style="width: 100%; background: #ffffff; overflow:auto;border:solid gray;border-width:.1em .1em .1em .8em;padding:.2em .6em;"><pre style="margin: 0; line-height: 125%"><span style="color: #888888">pip install datasets</span>
       }
-<span style="color: #888888">git clone https://github.com/IndoNLP/sea-crowd.git</span>
+<span style="color: #888888">git clone https://github.com/SEACrowd/seacrowd-datahub.git</span>
 </pre></div>
             </div>
             <div class="usage-content">
