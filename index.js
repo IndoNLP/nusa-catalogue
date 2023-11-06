@@ -306,7 +306,7 @@ axios.get(url, {
 
             var table = $('#table').DataTable({
                 data: dataset,
-                columns: updated_headers,
+                columns: headers,
                 "lengthMenu": [10, 25, 50, 75, 100, 250],
                 scrollCollapse: true,
                 paging: true,
