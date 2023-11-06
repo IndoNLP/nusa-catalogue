@@ -77,13 +77,15 @@ axios.get(url, ).then(function(response) {
 
         // console.log(idx)
         let subsets = []
-        console.log(rowData[2].values[1].formattedValue)
-        rowData.filter(row => row.values[1].formattedValue == idx).forEach((row, rowIndex) => {
+        // console.log(rowData[2].values[1].formattedValue)
+        // console.log(idx)
+        rowData.filter(row => row.values[1].formattedValue == decodeURI(idx)).forEach((row, rowIndex) => {
             // console.log(row)
             subsets.push(row.values)
         })
         // console.log(headers)
         // console.log(subsets)
+        // console.log(headersWhiteList)
         
         let dataset = []
         // For each on "headersWhiteList" to display data with defult sort
