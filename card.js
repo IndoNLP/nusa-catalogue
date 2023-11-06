@@ -22,7 +22,7 @@ function createSubsets(subsetsValue) {
 axios.get(url, ).then(function(response) {
         let rowData = null;
         for (let i=0; i < response.data.sheets.length; i++){
-            if (response.data.sheets[i].properties.title == 'All'){
+            if (response.data.sheets[i].properties.title == 'Approved Datasheets (Monitor)'){
                 rowData = response.data.sheets[i].data[0].rowData;
                 break;
             }
@@ -36,6 +36,16 @@ axios.get(url, ).then(function(response) {
 
         $('.loading-spinner').hide()
 
+        let header_map = {
+            'Dataset or dataset paper publish year': 'Year',
+            'Dataset name': 'Name',
+            'Dataset paper title': 'Paper',
+            'Subset(s)': 'Language(s)',
+            'Dataset paper URL': 'Paper Link',
+            'HuggingFace URL': 'HF Link',
+            'Dataset paper title': 'Paper Title'
+        }
+
         function getIndex() {
             let idx = document.URL.indexOf('?');
             let index = document.URL.substring(idx + 1, document.URL.length)
@@ -44,7 +54,7 @@ axios.get(url, ).then(function(response) {
         const idx = getIndex();
 
         // Grabbing header's index's to help us to get value's of just by header index
-        rowData[1].values.filter(header => header.formattedValue != undefined).forEach((header, headerIndex) => {
+        rowData[0].values.filter(header => header.formattedValue != undefined).forEach((header, headerIndex) => {
             if (headersWhiteList.includes(header.formattedValue)){
                 // headers.push({
                 //     index: headerIndex,
@@ -62,11 +72,22 @@ axios.get(url, ).then(function(response) {
             }
         })
 
+        // modify the whitelist
+        for (let i=0; i<headersWhiteList.length; i+=1){
+            if (header_map.hasOwnProperty(headersWhiteList[i])){
+                headersWhiteList[i] = header_map[headersWhiteList[i]]
+            }
+        }
+
+        console.log(idx)
         let subsets = []
-        rowData.filter(row => row.values[row.values.length-2].formattedValue == idx).forEach((row, rowIndex) => {
+        console.log(rowData[2].values[1].formattedValue)
+        rowData.filter(row => row.values[1].formattedValue == idx).forEach((row, rowIndex) => {
             console.log(row)
             subsets.push(row.values)
         })
+        console.log(headers)
+        console.log(subsets)
         
         let dataset = []
         // For each on "headersWhiteList" to display data with defult sort
@@ -74,6 +95,7 @@ axios.get(url, ).then(function(response) {
         var paper_title = "";
         var loader_name = "";
         headersWhiteList.forEach(element => {
+            console.log(headers.filter(h => h.title == element)[0].index)
             let value = subsets[0][headers.filter(h => h.title == element)[0].index].formattedValue
             value = value ? value : ''
             if (element == 'Ethical Risks') {
