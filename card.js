@@ -56,10 +56,6 @@ axios.get(url, ).then(function(response) {
         // Grabbing header's index's to help us to get value's of just by header index
         rowData[0].values.filter(header => header.formattedValue != undefined).forEach((header, headerIndex) => {
             if (headersWhiteList.includes(header.formattedValue)){
-                // headers.push({
-                //     index: headerIndex,
-                //     title: header.formattedValue
-                // })
                 title = header.formattedValue
                 if (header_map.hasOwnProperty(title)){
                     title = header_map[title]
@@ -79,15 +75,15 @@ axios.get(url, ).then(function(response) {
             }
         }
 
-        console.log(idx)
+        // console.log(idx)
         let subsets = []
         console.log(rowData[2].values[1].formattedValue)
         rowData.filter(row => row.values[1].formattedValue == idx).forEach((row, rowIndex) => {
-            console.log(row)
+            // console.log(row)
             subsets.push(row.values)
         })
-        console.log(headers)
-        console.log(subsets)
+        // console.log(headers)
+        // console.log(subsets)
         
         let dataset = []
         // For each on "headersWhiteList" to display data with defult sort

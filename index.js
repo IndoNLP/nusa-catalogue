@@ -102,17 +102,6 @@ axios.get(url, {
             'Dataset paper title': 'Paper Title'
         }
 
-        // updated_headers = headers
-            // for (let i = 0; i < updated_headers.length; i++) {
-            //     h = updated_headers[i].title
-            //     // console.log(h)
-            //     // console.log(header_map.hasOwnProperty(h))
-            //     if (header_map.hasOwnProperty(h)){
-            //         updated_headers[i].title = header_map[h]
-            //     }
-            // }
-
-
         // Grabbing header's index's to help us to get value's of just by header index 
         var headers_dict = new Object();
         console.log(rowData[0])
@@ -120,9 +109,6 @@ axios.get(url, {
             headers_dict[header.formattedValue] = headerIndex;
             if (headersWhiteList.includes(header.formattedValue)){
                 // do not put Dataloader and Implemented to table
-                console.log(">>>>>>> header")
-                console.log(header.formattedValue);
-                // if (header.formattedValue != 'Dataloader' && header.formattedValue != 'Implemented') {
                 title = header.formattedValue
                 if (header_map.hasOwnProperty(title)){
                     title = header_map[title]
@@ -132,7 +118,6 @@ axios.get(url, {
                     index: headerIndex,
                     title: title
                 });
-                // }
             }
         })
 
