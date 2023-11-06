@@ -96,8 +96,22 @@ axios.get(url, {
             'Dataset or dataset paper publish year': 'Year',
             'Dataset name': 'Name',
             'Dataset paper title': 'Paper',
-            'Subset(s)': 'Language(s)'
+            'Subset(s)': 'Language(s)',
+            'Dataset paper URL': 'Paper Link',
+            'HuggingFace URL': 'HF Link',
+            'Dataset paper title': 'Paper Title'
         }
+
+        // updated_headers = headers
+            // for (let i = 0; i < updated_headers.length; i++) {
+            //     h = updated_headers[i].title
+            //     // console.log(h)
+            //     // console.log(header_map.hasOwnProperty(h))
+            //     if (header_map.hasOwnProperty(h)){
+            //         updated_headers[i].title = header_map[h]
+            //     }
+            // }
+
 
         // Grabbing header's index's to help us to get value's of just by header index 
         var headers_dict = new Object();
@@ -108,12 +122,17 @@ axios.get(url, {
                 // do not put Dataloader and Implemented to table
                 console.log(">>>>>>> header")
                 console.log(header.formattedValue);
-                if (header.formattedValue != 'Dataloader' && header.formattedValue != 'Implemented') {
-                    headers.push({
-                        index: headerIndex,
-                        title: header.formattedValue
-                    });
+                // if (header.formattedValue != 'Dataloader' && header.formattedValue != 'Implemented') {
+                title = header.formattedValue
+                if (header_map.hasOwnProperty(title)){
+                    title = header_map[title]
                 }
+
+                headers.push({
+                    index: headerIndex,
+                    title: title
+                });
+                // }
             }
         })
 
@@ -275,15 +294,15 @@ axios.get(url, {
                 }
             );
 
-            updated_headers = headers
-            for (let i = 0; i < updated_headers.length; i++) {
-                h = updated_headers[i].title
-                // console.log(h)
-                // console.log(header_map.hasOwnProperty(h))
-                if (header_map.hasOwnProperty(h)){
-                    updated_headers[i].title = header_map[h]
-                }
-            }
+            // updated_headers = headers
+            // for (let i = 0; i < updated_headers.length; i++) {
+            //     h = updated_headers[i].title
+            //     // console.log(h)
+            //     // console.log(header_map.hasOwnProperty(h))
+            //     if (header_map.hasOwnProperty(h)){
+            //         updated_headers[i].title = header_map[h]
+            //     }
+            // }
 
             var table = $('#table').DataTable({
                 data: dataset,
