@@ -31,8 +31,9 @@ axios.get(url, ).then(function(response) {
         let headers = []
 
         // If you disable display name don't remove it from "headersWhiteList" becuase we use this as index key to push subsets to his row 
-        let headersWhiteList = ['Name','Link', 'HF Link', 'Year', 'Volume', 'Unit', 'Paper Title', 'Paper Link', 'Access', 'Tasks', 'License', 'Language', 'Dialect', 'Domain', 'Form', 'Collection Style', 'Ethical Risks', 'Provider', 'Derived From', 'Test Split', 'Notes', 'Dataloader','Implemented']
-        
+        // let headersWhiteList = ['Name','Link', 'HF Link', 'Year', 'Volume', 'Unit', 'Paper Title', 'Paper Link', 'Access', 'Tasks', 'License', 'Language', 'Dialect', 'Domain', 'Form', 'Collection Style', 'Ethical Risks', 'Provider', 'Derived From', 'Test Split', 'Notes', 'Dataloader','Implemented']
+        let headersWhiteList = ['No', 'Dataset name', 'Dataset paper title', 'Dataset or dataset paper publish year', 'Dataset URL', 'HuggingFace URL', 'Approval Status', 'Dataset paper URL', 'Subset(s)']
+
         $('.loading-spinner').hide()
 
         function getIndex() {
@@ -45,10 +46,19 @@ axios.get(url, ).then(function(response) {
         // Grabbing header's index's to help us to get value's of just by header index
         rowData[1].values.filter(header => header.formattedValue != undefined).forEach((header, headerIndex) => {
             if (headersWhiteList.includes(header.formattedValue)){
+                // headers.push({
+                //     index: headerIndex,
+                //     title: header.formattedValue
+                // })
+                title = header.formattedValue
+                if (header_map.hasOwnProperty(title)){
+                    title = header_map[title]
+                }
+
                 headers.push({
                     index: headerIndex,
-                    title: header.formattedValue
-                })
+                    title: title
+                });
             }
         })
 
