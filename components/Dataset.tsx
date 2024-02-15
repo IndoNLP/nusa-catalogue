@@ -103,10 +103,12 @@ export const Dataset = () => {
 
     return [
       <PaginationPrevious
+        key="prev"
         onClick={() => setPage((prev) => Math.max(prev - 1, 1))}
       />,
       ...pageNumbers,
       <PaginationNext
+        key="next"
         onClick={() => setPage((prev) => Math.min(prev + 1, totalPage))}
       />,
     ];
