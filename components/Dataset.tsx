@@ -1,7 +1,6 @@
 import {
   Card,
   CardContent,
-  CardDescription,
   CardFooter,
   CardHeader,
   CardTitle,
@@ -23,11 +22,11 @@ import {
   Database,
   Eye,
   FileType,
+  Filter,
   FolderCheck,
   Globe,
   ScrollText,
   Speech,
-  Type,
   Video,
 } from "lucide-react";
 import {
@@ -36,6 +35,8 @@ import {
   TooltipProvider,
   TooltipTrigger,
 } from "./ui/tooltip";
+
+import { ToggleGroup, ToggleGroupItem } from "@/components/ui/toggle-group";
 
 interface DatasetProps {
   name: string;
@@ -50,8 +51,24 @@ interface DatasetProps {
 }
 
 const PER_PAGE = 15;
+const TASKS = [
+  "Wordnet",
+  "Machine Translation",
+  "Readibility Assessment",
+  "Automatic Speech Recognition",
+  "Question Answering",
+  "Image-to-Text Generation",
+  "Language Modeling",
+  "Text-to-Image Generation",
+  "Visual Storytelling",
+  "Image Captioning",
+  "Speech Emotion Recognition",
+];
 
 export const Dataset = () => {
+  const [showFilter, setShowFilter] = useState(false);
+  const [filterModality, setFilterModality] = useState<string[]>([]);
+  const [filterTask, setFilterTask] = useState<string[]>([]);
   const [loading, setLoading] = useState(true);
   const [search, setSearch] = useState("");
   const [data, setData] = useState<DatasetProps[]>([]);
@@ -82,29 +99,38 @@ export const Dataset = () => {
     load();
   }, []);
 
+  const filterData = (data: DatasetProps[]) => {
+    let result = data.filter(
+      (d) =>
+        d.name.toLowerCase().includes(search.toLowerCase()) ||
+        d.description.toLowerCase().includes(search.toLowerCase())
+    );
+    if (filterModality.length > 0) {
+      result = result.filter((d) =>
+        filterModality.some((f) => d.modality.includes(f))
+      );
+    }
+    if (filterTask.length > 0) {
+      result = result.filter((d) =>
+        filterTask.some((f) => d.tasks.includes(f))
+      );
+    }
+    return result;
+  };
+
   const filterPage = () => {
     const start = (page - 1) * PER_PAGE;
     const end = start + PER_PAGE;
 
     // Also filter by search
-    return data
-      .filter(
-        (d) =>
-          d.name.toLowerCase().includes(search.toLowerCase()) ||
-          d.description.toLowerCase().includes(search.toLowerCase())
-      )
-      .slice(start, end);
+    return filterData(data).slice(start, end);
   };
 
   useEffect(() => {
-    const filtered = data.filter(
-      (d) =>
-        d.name.toLowerCase().includes(search.toLowerCase()) ||
-        d.description.toLowerCase().includes(search.toLowerCase())
-    );
+    const filtered = filterData(data);
     setFilteredData(filtered);
     setPage(1); // Reset to the first page when search changes
-  }, [search, data]);
+  }, [search, data, filterModality, filterTask]);
 
   const renderPagination = () => {
     const totalPage = Math.ceil(filteredData.length / PER_PAGE);
@@ -157,7 +183,7 @@ export const Dataset = () => {
   return (
     <TooltipProvider>
       <section id="dataset" className="container py-24 sm:py-32 !pt-20">
-        <div className="flex flex-row mb-8">
+        <div className="flex flex-row mb-2">
           <div className="text-neutral-400">
             Showing {filteredData.length} dataset
           </div>
@@ -168,6 +194,71 @@ export const Dataset = () => {
             value={search}
             onChange={(e) => setSearch(e.target.value)}
           />
+        </div>
+
+        <div className="mb-4">
+          <Button variant="outline" onClick={() => setShowFilter((v) => !v)}>
+            <Filter size={20} className="mr-2" /> Filter
+          </Button>
+
+          {showFilter ? (
+            <div className="px-4 py-2 mt-2 rounded-md border border-slate-100 bg-slate-50">
+              <div className="flex flex-col">
+                <div className="flex flex-row items-center mb-2">
+                  <div className="mr-4">Modality</div>
+                  <div className="p-2 border border-slate-100 rounded-md bg-white">
+                    <ToggleGroup
+                      type="multiple"
+                      value={filterModality}
+                      onValueChange={(value) => {
+                        setFilterModality(value);
+                      }}
+                    >
+                      <ToggleGroupItem
+                        value="Language"
+                        aria-label="Toggle language"
+                      >
+                        <FileType size={20} className="mr-2" /> Language
+                      </ToggleGroupItem>
+                      <ToggleGroupItem
+                        value="Vision"
+                        aria-label="Toggle vision"
+                      >
+                        <Eye size={20} className="mr-2" /> Vision
+                      </ToggleGroupItem>
+                      <ToggleGroupItem
+                        value="Speech"
+                        aria-label="Toggle speech"
+                      >
+                        <Speech size={20} className="mr-2" /> Speech
+                      </ToggleGroupItem>
+                      <ToggleGroupItem value="Video" aria-label="Toggle video">
+                        <Video size={20} className="mr-2" /> Video
+                      </ToggleGroupItem>
+                    </ToggleGroup>
+                  </div>
+                </div>
+                <div className="flex flex-row items-center">
+                  <div className="mr-4">Tasks</div>
+                  <div className="p-2 border border-slate-100 rounded-md bg-white">
+                    <ToggleGroup
+                      type="multiple"
+                      value={filterTask}
+                      onValueChange={(value) => {
+                        setFilterTask(value);
+                      }}
+                    >
+                      {TASKS.map((task) => (
+                        <ToggleGroupItem value={task} key={task}>
+                          {task}
+                        </ToggleGroupItem>
+                      ))}
+                    </ToggleGroup>
+                  </div>
+                </div>
+              </div>
+            </div>
+          ) : null}
         </div>
 
         {loading ? (
