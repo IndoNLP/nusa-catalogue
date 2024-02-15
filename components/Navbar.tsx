@@ -23,7 +23,7 @@ interface RouteProps {
 
 const routeList: RouteProps[] = [
   {
-    href: "/",
+    href: "/seacrowd",
     label: "Data Catalogue",
   },
   {
@@ -37,7 +37,7 @@ export const Navbar = () => {
 
   const renderLogo = () => {
     return (
-      <a href="/" className="ml-2 font-bold text-xl flex items-center">
+      <a href="/seacrowd" className="ml-2 font-bold text-xl flex items-center">
         <Database className="mr-2" />
         SEA Crowd
       </a>

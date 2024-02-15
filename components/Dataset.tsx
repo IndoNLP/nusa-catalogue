@@ -63,6 +63,46 @@ const TASKS = [
   "Visual Storytelling",
   "Image Captioning",
   "Speech Emotion Recognition",
+  "Aspect Based Sentiment Analysis",
+  "Text Retrieval",
+  "Text-To-Speech Synthesis",
+  "Optical Character Recognition",
+  "Commonsense Reasoning",
+  "Dialogue System",
+  "Abstractive Summarization",
+  "Sentiment Analysis",
+  "Speech-to-text translation",
+  "Emotion Classification",
+  "Hate Speech Detection",
+  "Error Spelling Correction",
+  "Text Classification",
+  "Code-switching Identification",
+  "Summarization",
+  "Relation Extraction",
+  "Named Entiy Recognition",
+  "Spoken Language Identification",
+  "Language Identification",
+  "Video-to-Text Retrieval",
+  "Video Captioning",
+  "Chatbot",
+  "Paraphrasing",
+  "Constituency Parsing",
+  "Short Answer Grading",
+  "Coreference Resolution",
+  "POS Tagging",
+  "Token-level language identification",
+  "Abstract Meaning Representation",
+  "Legal Classification",
+  "Next Tweet Prediction",
+  "Tweet Ordering",
+  "Hoax Detection",
+  "Clickbait Detection",
+  "Topic Classification",
+  "Stance Detection",
+  "Semantic Role Labeling",
+  "Intent Classification",
+  "Slot Filling",
+  "Abusive Language Detection",
 ];
 
 export const Dataset = () => {
@@ -107,7 +147,7 @@ export const Dataset = () => {
     );
     if (filterModality.length > 0) {
       result = result.filter((d) =>
-        filterModality.some((f) => d.modality.includes(f))
+        filterModality.every((f) => d.modality.includes(f))
       );
     }
     if (filterTask.length > 0) {
@@ -135,7 +175,7 @@ export const Dataset = () => {
   const renderPagination = () => {
     const totalPage = Math.ceil(filteredData.length / PER_PAGE);
     const pageNumbers = [];
-    const visiblePages = 5;
+    const visiblePages = 4;
     const halfVisible = Math.floor(visiblePages / 2);
 
     let startPage = Math.max(page - halfVisible, 1);
@@ -183,9 +223,9 @@ export const Dataset = () => {
   return (
     <TooltipProvider>
       <section id="dataset" className="container py-24 sm:py-32 !pt-20">
-        <div className="flex flex-row mb-2">
-          <div className="text-neutral-400">
-            Showing {filteredData.length} dataset
+        <div className="flex flex-col md:flex-row mb-2">
+          <div className="text-neutral-400 mb-2">
+            Showing {filteredData.length} dataset, page {page}
           </div>
           <div className="flex flex-1"></div>
           <Search
@@ -204,52 +244,69 @@ export const Dataset = () => {
           {showFilter ? (
             <div className="px-4 py-2 mt-2 rounded-md border border-slate-100 bg-slate-50">
               <div className="flex flex-col">
-                <div className="flex flex-row items-center mb-2">
-                  <div className="mr-4">Modality</div>
-                  <div className="p-2 border border-slate-100 rounded-md bg-white">
+                <div className="flex flex-row items-start mb-2">
+                  <div className="text-xs w-16 mr-4 text-right leading-10 mt-2">
+                    Modality
+                  </div>
+                  <div className="p-2 border border-slate-100 rounded-md bg-white flex flex-1">
                     <ToggleGroup
                       type="multiple"
+                      className="flex flex-wrap justify-start"
                       value={filterModality}
                       onValueChange={(value) => {
                         setFilterModality(value);
                       }}
                     >
                       <ToggleGroupItem
+                        className="text-xs"
                         value="Language"
                         aria-label="Toggle language"
                       >
                         <FileType size={20} className="mr-2" /> Language
                       </ToggleGroupItem>
                       <ToggleGroupItem
+                        className="text-xs"
                         value="Vision"
                         aria-label="Toggle vision"
                       >
                         <Eye size={20} className="mr-2" /> Vision
                       </ToggleGroupItem>
                       <ToggleGroupItem
+                        className="text-xs"
                         value="Speech"
                         aria-label="Toggle speech"
                       >
                         <Speech size={20} className="mr-2" /> Speech
                       </ToggleGroupItem>
-                      <ToggleGroupItem value="Video" aria-label="Toggle video">
+                      <ToggleGroupItem
+                        className="text-xs"
+                        value="Video"
+                        aria-label="Toggle video"
+                      >
                         <Video size={20} className="mr-2" /> Video
                       </ToggleGroupItem>
                     </ToggleGroup>
                   </div>
                 </div>
-                <div className="flex flex-row items-center">
-                  <div className="mr-4">Tasks</div>
-                  <div className="p-2 border border-slate-100 rounded-md bg-white">
+                <div className="flex flex-row items-start">
+                  <div className="text-xs w-16 mr-4 text-right leading-10 mt-2">
+                    Tasks
+                  </div>
+                  <div className="p-2 border border-slate-100 rounded-md bg-white flex flex-1">
                     <ToggleGroup
                       type="multiple"
+                      className="flex flex-wrap justify-start"
                       value={filterTask}
                       onValueChange={(value) => {
                         setFilterTask(value);
                       }}
                     >
                       {TASKS.map((task) => (
-                        <ToggleGroupItem value={task} key={task}>
+                        <ToggleGroupItem
+                          value={task}
+                          key={task}
+                          className="text-xs text-left"
+                        >
                           {task}
                         </ToggleGroupItem>
                       ))}
@@ -352,8 +409,9 @@ export const Dataset = () => {
                   <div className="flex flex-1"></div>
                   {hfLink ? (
                     <a href={hfLink}>
-                      <Button variant="outline">
-                        <Bot size={20} className="mr-2" /> HF
+                      <Button variant="outline" size="sm">
+                        <Bot size={20} />
+                        <span className="hidden md:block ml-2">HF</span>
                       </Button>
                     </a>
                   ) : null}
@@ -362,8 +420,9 @@ export const Dataset = () => {
                     <Tooltip>
                       <TooltipTrigger asChild>
                         <a href={paperLink}>
-                          <Button variant="outline">
-                            <ScrollText size={20} className="mr-2" /> Paper
+                          <Button variant="outline" size="sm">
+                            <ScrollText size={20} />
+                            <span className="hidden md:block ml-2">Paper</span>
                           </Button>
                         </a>
                       </TooltipTrigger>
@@ -373,7 +432,7 @@ export const Dataset = () => {
 
                   {datasetLink ? (
                     <a href={datasetLink}>
-                      <Button>
+                      <Button size="sm">
                         <Database size={20} className="mr-2" /> Data
                       </Button>
                     </a>
