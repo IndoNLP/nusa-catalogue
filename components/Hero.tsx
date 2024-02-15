@@ -17,7 +17,9 @@ export const Hero = () => {
         </p>
 
         <div className="space-y-4 md:space-y-0 md:space-x-4">
-          <Button className="w-full md:w-1/3">Get Started</Button>
+          <a href="#dataset">
+            <Button className="w-full md:w-1/3">Browse Dataset</Button>
+          </a>
 
           <a
             href="https://github.com/SEACrowd/seacrowd-catalogue"
