@@ -105,6 +105,11 @@ const TASKS = [
   "Abusive Language Detection",
 ];
 
+const FETCH_URL = [
+  `https://sewacrowd.sonnylazuardi.workers.dev/`,
+  `https://opensheet.elk.sh/1ibbywsC1tQ_sLPX8bUAjC-vrTrUqZgZA46W_sxWw4Ss/Approved+Datasheets+(Monitor)`,
+];
+
 export const Dataset = () => {
   const [showFilter, setShowFilter] = useState(false);
   const [filterModality, setFilterModality] = useState<string[]>([]);
@@ -118,10 +123,14 @@ export const Dataset = () => {
   useEffect(() => {
     const load = async () => {
       setLoading(true);
-      const result = await fetch(
-        `https://opensheet.elk.sh/1ibbywsC1tQ_sLPX8bUAjC-vrTrUqZgZA46W_sxWw4Ss/Approved+Datasheets+(Monitor)`
-      );
-      const json = await result.json();
+      let result, json;
+      try {
+        result = await fetch(FETCH_URL[0]);
+        json = await result.json();
+      } catch (e) {
+        result = await fetch(FETCH_URL[1]);
+        json = await result.json();
+      }
       const dataset = json.map((item: any) => ({
         name: item["Dataset name"],
         description: item["Dataset description"],
