@@ -4,10 +4,12 @@ import Card from "@/components/Card";
 import { Navbar } from "@/components/Navbar";
 import { useDatasetFetch } from "@/components/helper/hooks";
 import { LoadingSpinner } from "@/components/ui/spinner";
+import { useSearchParams } from "next/navigation";
 
-export default function Page({ params }: { params: { id: string } }) {
+export default function Page() {
+  const searchParams = useSearchParams();
   const { data } = useDatasetFetch();
-  const item = data.find((d) => d.id === params.id);
+  const item = data.find((d) => d.id === searchParams.get("id"));
   return (
     <>
       <Navbar />

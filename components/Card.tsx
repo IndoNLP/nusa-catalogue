@@ -111,7 +111,7 @@ const Card = ({
     >
       <CardHeader className="flex flex-row items-center gap-4 pb-2">
         <div className="flex flex-col">
-          <Link href={`/dataset/${id}`}>
+          <Link href={`/dataset?id=${id}`}>
             <CardTitle className="text-lg">{name}</CardTitle>
           </Link>
         </div>
