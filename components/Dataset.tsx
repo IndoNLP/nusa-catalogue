@@ -271,28 +271,31 @@ export const Dataset = () => {
                         value="Language"
                         aria-label="Toggle language"
                       >
-                        <FileType size={20} className="mr-2" /> Language
+                        <FileType size={20} className="mr-2 text-amber-500" />{" "}
+                        Language
                       </ToggleGroupItem>
                       <ToggleGroupItem
                         className="text-xs"
                         value="Vision"
                         aria-label="Toggle vision"
                       >
-                        <Eye size={20} className="mr-2" /> Vision
+                        <Eye size={20} className="mr-2 text-fuchsia-500" />{" "}
+                        Vision
                       </ToggleGroupItem>
                       <ToggleGroupItem
                         className="text-xs"
                         value="Speech"
                         aria-label="Toggle speech"
                       >
-                        <Speech size={20} className="mr-2" /> Speech
+                        <Speech size={20} className="mr-2 text-green-500" />{" "}
+                        Speech
                       </ToggleGroupItem>
                       <ToggleGroupItem
                         className="text-xs"
                         value="Video"
                         aria-label="Toggle video"
                       >
-                        <Video size={20} className="mr-2" /> Video
+                        <Video size={20} className="mr-2 text-rose-500" /> Video
                       </ToggleGroupItem>
                     </ToggleGroup>
                   </div>
@@ -350,14 +353,33 @@ export const Dataset = () => {
             const renderModalityIcon = (modality: string) => {
               switch (modality) {
                 case "Language":
-                  return <FileType size={20} />;
+                  return <FileType size={20} className="text-amber-500" />;
                 case "Vision":
-                  return <Eye size={20} />;
+                  return <Eye size={20} className="text-fuchsia-500" />;
                 case "Speech":
-                  return <Speech size={20} />;
+                  return <Speech size={20} className="text-green-500" />;
                 case "Video":
-                  return <Video size={20} />;
+                  return <Video size={20} className="text-rose-500" />;
               }
+            };
+
+            const renderLine = () => {
+              return (
+                <div className="absolute bottom-0 left-0 right-0 h-2 flex flex-row">
+                  {modality.split("\n").map((modality) => {
+                    switch (modality) {
+                      case "Language":
+                        return <div className="flex flex-1 bg-amber-500" />;
+                      case "Vision":
+                        return <div className="flex flex-1 bg-fuchsia-500" />;
+                      case "Speech":
+                        return <div className="flex flex-1 bg-green-500" />;
+                      case "Video":
+                        return <div className="flex flex-1 bg-rose-500" />;
+                    }
+                  })}
+                </div>
+              );
             };
 
             const renderModality = () => {
@@ -379,7 +401,7 @@ export const Dataset = () => {
             return (
               <Card
                 key={name}
-                className="max-w-md md:break-inside-avoid overflow-hidden"
+                className="max-w-md md:break-inside-avoid overflow-hidden relative"
               >
                 <CardHeader className="flex flex-row items-center gap-4 pb-2">
                   <div className="flex flex-col">
@@ -447,6 +469,8 @@ export const Dataset = () => {
                     </a>
                   ) : null}
                 </CardFooter>
+
+                {renderLine()}
               </Card>
             );
           })}
