@@ -15,6 +15,7 @@ import {
 import { Github, Database } from "lucide-react";
 import { buttonVariants } from "./ui/button";
 import { Menu } from "lucide-react";
+import Image from "next/image";
 
 interface RouteProps {
   href: string;
@@ -38,8 +39,7 @@ export const Navbar = () => {
   const renderLogo = () => {
     return (
       <a href="/seacrowd" className="ml-2 font-bold text-xl flex items-center">
-        <Database className="mr-2" />
-        SEA Crowd
+        <Image src={"/logo.png"} alt="logo" width={186} height={32} />
       </a>
     );
   };

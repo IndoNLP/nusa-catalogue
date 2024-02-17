@@ -106,121 +106,125 @@ export const Dataset = () => {
   };
 
   return (
-    <section id="dataset" className="container py-24 sm:py-32 !pt-20">
-      <div className="flex flex-col md:flex-row mb-2">
-        <div className="text-neutral-400 mb-2">
-          Showing {filteredData.length} dataset, page {page}
+    <div id="dataset" className="bg-yellow-50">
+      <div className="sticky top-14 py-4 z-20 bg-white shadow-sm">
+        <div className="container flex flex-col md:flex-row items-center">
+          <div className="text-neutral-400">
+            Showing {filteredData.length} dataset, page {page}
+          </div>
+          <div className="flex flex-1"></div>
+          <Search
+            placeholder="Search Dataset..."
+            className="w-full max-w-96"
+            value={search}
+            onChange={(e) => setSearch(e.target.value)}
+          />
         </div>
-        <div className="flex flex-1"></div>
-        <Search
-          placeholder="Search Dataset..."
-          className="w-full max-w-96"
-          value={search}
-          onChange={(e) => setSearch(e.target.value)}
-        />
       </div>
+      <div className="container pb-24 sm:pb-32">
+        <div className="mb-4 pt-4">
+          <Button variant="outline" onClick={() => setShowFilter((v) => !v)}>
+            <Filter size={20} className="mr-2" /> Filter
+          </Button>
 
-      <div className="mb-4">
-        <Button variant="outline" onClick={() => setShowFilter((v) => !v)}>
-          <Filter size={20} className="mr-2" /> Filter
-        </Button>
-
-        {showFilter ? (
-          <div className="px-4 py-2 mt-2 rounded-md border border-slate-100 bg-slate-50">
-            <div className="flex flex-col">
-              <div className="flex flex-row items-start mb-2">
-                <div className="text-xs w-16 mr-4 text-right leading-10 mt-2">
-                  Modality
-                </div>
-                <div className="p-2 border border-slate-100 rounded-md bg-white flex flex-1">
-                  <ToggleGroup
-                    type="multiple"
-                    className="flex flex-wrap justify-start"
-                    value={filterModality}
-                    onValueChange={(value) => {
-                      setFilterModality(value);
-                    }}
-                  >
-                    <ToggleGroupItem
-                      className="text-xs"
-                      value="Language"
-                      aria-label="Toggle language"
+          {showFilter ? (
+            <div className="px-4 py-2 mt-2 rounded-md border border-slate-100 bg-slate-50">
+              <div className="flex flex-col">
+                <div className="flex flex-row items-start mb-2">
+                  <div className="text-xs w-16 mr-4 text-right leading-10 mt-2">
+                    Modality
+                  </div>
+                  <div className="p-2 border border-slate-100 rounded-md bg-white flex flex-1">
+                    <ToggleGroup
+                      type="multiple"
+                      className="flex flex-wrap justify-start"
+                      value={filterModality}
+                      onValueChange={(value) => {
+                        setFilterModality(value);
+                      }}
                     >
-                      <FileType size={20} className="mr-2 text-amber-500" />{" "}
-                      Language
-                    </ToggleGroupItem>
-                    <ToggleGroupItem
-                      className="text-xs"
-                      value="Vision"
-                      aria-label="Toggle vision"
-                    >
-                      <Eye size={20} className="mr-2 text-fuchsia-500" /> Vision
-                    </ToggleGroupItem>
-                    <ToggleGroupItem
-                      className="text-xs"
-                      value="Speech"
-                      aria-label="Toggle speech"
-                    >
-                      <Speech size={20} className="mr-2 text-green-500" />{" "}
-                      Speech
-                    </ToggleGroupItem>
-                    <ToggleGroupItem
-                      className="text-xs"
-                      value="Video"
-                      aria-label="Toggle video"
-                    >
-                      <Video size={20} className="mr-2 text-rose-500" /> Video
-                    </ToggleGroupItem>
-                  </ToggleGroup>
-                </div>
-              </div>
-              <div className="flex flex-row items-start">
-                <div className="text-xs w-16 mr-4 text-right leading-10 mt-2">
-                  Tasks
-                </div>
-                <div className="p-2 border border-slate-100 rounded-md bg-white flex flex-1">
-                  <ToggleGroup
-                    type="multiple"
-                    className="flex flex-wrap justify-start"
-                    value={filterTask}
-                    onValueChange={(value) => {
-                      setFilterTask(value);
-                    }}
-                  >
-                    {TASKS.map((task) => (
                       <ToggleGroupItem
-                        value={task}
-                        key={task}
-                        className="text-xs text-left"
+                        className="text-xs"
+                        value="Language"
+                        aria-label="Toggle language"
                       >
-                        {task}
+                        <FileType size={20} className="mr-2 text-amber-500" />{" "}
+                        Language
                       </ToggleGroupItem>
-                    ))}
-                  </ToggleGroup>
+                      <ToggleGroupItem
+                        className="text-xs"
+                        value="Vision"
+                        aria-label="Toggle vision"
+                      >
+                        <Eye size={20} className="mr-2 text-fuchsia-500" />{" "}
+                        Vision
+                      </ToggleGroupItem>
+                      <ToggleGroupItem
+                        className="text-xs"
+                        value="Speech"
+                        aria-label="Toggle speech"
+                      >
+                        <Speech size={20} className="mr-2 text-green-500" />{" "}
+                        Speech
+                      </ToggleGroupItem>
+                      <ToggleGroupItem
+                        className="text-xs"
+                        value="Video"
+                        aria-label="Toggle video"
+                      >
+                        <Video size={20} className="mr-2 text-rose-500" /> Video
+                      </ToggleGroupItem>
+                    </ToggleGroup>
+                  </div>
+                </div>
+                <div className="flex flex-row items-start">
+                  <div className="text-xs w-16 mr-4 text-right leading-10 mt-2">
+                    Tasks
+                  </div>
+                  <div className="p-2 border border-slate-100 rounded-md bg-white flex flex-1">
+                    <ToggleGroup
+                      type="multiple"
+                      className="flex flex-wrap justify-start"
+                      value={filterTask}
+                      onValueChange={(value) => {
+                        setFilterTask(value);
+                      }}
+                    >
+                      {TASKS.map((task) => (
+                        <ToggleGroupItem
+                          value={task}
+                          key={task}
+                          className="text-xs text-left"
+                        >
+                          {task}
+                        </ToggleGroupItem>
+                      ))}
+                    </ToggleGroup>
+                  </div>
                 </div>
               </div>
             </div>
+          ) : null}
+        </div>
+
+        {loading ? (
+          <div className="h-40 flex justify-center items-center">
+            <LoadingSpinner />
           </div>
         ) : null}
-      </div>
 
-      {loading ? (
-        <div className="h-40 flex justify-center items-center">
-          <LoadingSpinner />
+        <div className="grid md:grid-cols-2 lg:grid-cols-4 sm:block columns-2  lg:columns-3 lg:gap-6 mx-auto space-y-4 lg:space-y-6 mb-8">
+          {filterPage().map((item: DatasetProps) => {
+            return <Card item={item} key={item.id} />;
+          })}
         </div>
-      ) : null}
 
-      <div className="grid md:grid-cols-2 lg:grid-cols-4 sm:block columns-2  lg:columns-3 lg:gap-6 mx-auto space-y-4 lg:space-y-6 mb-8">
-        {filterPage().map((item: DatasetProps) => {
-          return <Card item={item} key={item.id} />;
-        })}
+        <div>
+          <Pagination>
+            <PaginationContent>{renderPagination()}</PaginationContent>
+          </Pagination>
+        </div>
       </div>
-
-      <div>
-        <Pagination>
-          <PaginationContent>{renderPagination()}</PaginationContent>
-        </Pagination>
-      </div>
-    </section>
+    </div>
   );
 };

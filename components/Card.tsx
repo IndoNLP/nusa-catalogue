@@ -105,7 +105,7 @@ const Card = ({
     <CardComponent
       key={name}
       className={cn(
-        "md:break-inside-avoid overflow-hidden relative",
+        "md:break-inside-avoid overflow-hidden relative bg-white",
         showDetail ? "w-full" : "max-w-md"
       )}
     >
