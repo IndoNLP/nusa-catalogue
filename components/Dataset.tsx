@@ -108,14 +108,14 @@ export const Dataset = () => {
   return (
     <div id="dataset" className="bg-yellow-50">
       <div className="sticky top-14 py-4 z-20 bg-white shadow-sm">
-        <div className="container flex flex-col md:flex-row items-center">
+        <div className="container flex flex-col space-y-1 md:flex-row items-center">
           <div className="text-neutral-400">
             Showing {filteredData.length} dataset, page {page}
           </div>
           <div className="flex flex-1"></div>
           <Search
             placeholder="Search Dataset..."
-            className="w-full max-w-96"
+            className="w-full max-w-[500px]"
             value={search}
             onChange={(e) => setSearch(e.target.value)}
           />
