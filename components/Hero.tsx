@@ -4,6 +4,8 @@ import { buttonVariants } from "./ui/button";
 import { Database, Github, MapPin } from "lucide-react";
 import createGlobe from "cobe";
 import { useEffect, useRef, useState } from "react";
+import { useIntersectionObserver } from "./helper/useIntersectionObserver";
+import { cn } from "@/lib/utils";
 
 const markers: any = [
   { location: [4.5353, 114.7277], size: 0.08, country: "Brunei" },
@@ -23,6 +25,9 @@ let currentPhi = Math.PI * -0.16 + Math.PI;
 let currentTheta = -0.06 * Math.PI;
 
 export const Hero = () => {
+  const { isIntersecting, ref } = useIntersectionObserver({
+    threshold: 0.5,
+  });
   const canvasRef = useRef();
   const locationToAngles = (lat: number, long: number) => {
     return [
@@ -80,7 +85,7 @@ export const Hero = () => {
       const [lat, long] = currentMarker.location;
       focusRef.current = locationToAngles(lat, long);
       setCountry(currentMarker.country);
-    }, 2000);
+    }, 2500);
 
     return () => {
       clearInterval(rotate);
@@ -134,8 +139,16 @@ export const Hero = () => {
 
       <div className="bg-yellow-50 rounded-3xl w-full relative md:mt-20 lg:mt-0">
         <div className="h-[300px] w-full bg-yellow-50 rounded-3xl md:hidden"></div>
-        <div className="h-[500px] w-full overflow-hidden absolute left-0 top-0 md:relative -mt-[200px] pointer-events-none">
-          <div className="md:mt-[70px] h-[800px] w-full max-w-[600px] overflow-hidden absolute right-0 top-0">
+        <div
+          className="h-[500px] w-full overflow-hidden absolute left-0 top-0 md:relative -mt-[200px] pointer-events-none"
+          ref={ref}
+        >
+          <div
+            className={cn(
+              "md:mt-[70px] h-[800px] w-full max-w-[600px] overflow-hidden absolute right-0 top-0",
+              !isIntersecting && "invisible"
+            )}
+          >
             <canvas
               // @ts-ignore
               ref={canvasRef}
