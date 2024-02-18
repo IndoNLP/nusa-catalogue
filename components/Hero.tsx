@@ -36,22 +36,21 @@ export const Hero = () => {
     let globe: any;
     let width = 0;
     const doublePi = Math.PI * 2;
+    const onResize = () =>
+      canvasRef.current && (width = (canvasRef.current as any).offsetWidth);
+    window.addEventListener("resize", onResize);
+    onResize();
 
     if (canvasRef.current) {
-      const onResize = () =>
-        canvasRef.current && (width = (canvasRef.current as any).offsetWidth);
-      window.addEventListener("resize", onResize);
-      onResize();
-
       globe = createGlobe(canvasRef.current, {
-        devicePixelRatio: 2,
-        width: 600 * 2,
-        height: 600 * 2,
+        devicePixelRatio: 1,
+        width: 600,
+        height: 600,
         phi: Math.PI * -0.16 + Math.PI,
         theta: -2.06 * Math.PI,
         dark: 0,
         diffuse: 1.2,
-        mapSamples: 40000,
+        mapSamples: 20000,
         mapBrightness: 1.5,
         baseColor: [1, 1, 1],
         markerColor: [0, 0, 0],
@@ -70,15 +69,12 @@ export const Hero = () => {
             currentPhi -= distNegative * 0.08;
           }
           currentTheta = currentTheta * 0.92 + focusTheta * 0.08;
-          state.width = width * 2;
-          state.height = width * 2;
+          state.width = width;
+          state.height = width;
         },
       });
     }
 
-    // rotate is a set intervel that rotates the globe every second
-    // this will iterate through the markers
-    // using the locationToAngles function to convert the lat and long to angles
     let rotate = setInterval(() => {
       const currentMarker = markers[Math.floor(Math.random() * markers.length)];
       const [lat, long] = currentMarker.location;
@@ -88,6 +84,7 @@ export const Hero = () => {
 
     return () => {
       clearInterval(rotate);
+      window.removeEventListener("resize", onResize);
       if (globe) globe.destroy();
     };
   }, []);
@@ -135,7 +132,6 @@ export const Hero = () => {
         </div>
       </div>
 
-      {/* Hero cards sections */}
       <div className="bg-yellow-50 rounded-3xl w-full relative md:mt-20 lg:mt-0">
         <div className="h-[300px] w-full bg-yellow-50 rounded-3xl md:hidden"></div>
         <div className="h-[500px] w-full overflow-hidden absolute left-0 top-0 md:relative -mt-[200px] pointer-events-none">
