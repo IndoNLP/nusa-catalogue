@@ -48,9 +48,9 @@ export const Hero = () => {
 
     if (canvasRef.current) {
       globe = createGlobe(canvasRef.current, {
-        devicePixelRatio: 1,
-        width: 600,
-        height: 600,
+        devicePixelRatio: 0.92,
+        width: 450,
+        height: 450,
         phi: Math.PI * -0.16 + Math.PI,
         theta: -2.06 * Math.PI,
         dark: 0,
@@ -137,15 +137,15 @@ export const Hero = () => {
         </div>
       </div>
 
-      <div className="bg-yellow-50 rounded-3xl w-full relative md:mt-20 lg:mt-0">
+      <div className="bg-yellow-50 rounded-3xl w-full relative mt-20 lg:mt-0">
         <div className="h-[300px] w-full bg-yellow-50 rounded-3xl md:hidden"></div>
         <div
-          className="h-[500px] w-full overflow-hidden absolute left-0 top-0 md:relative -mt-[200px] pointer-events-none"
+          className="h-[400px] w-full overflow-hidden absolute left-0 top-0 md:relative -mt-[100px] pointer-events-none"
           ref={ref}
         >
           <div
             className={cn(
-              "md:mt-[70px] h-[800px] w-full max-w-[600px] overflow-hidden absolute right-0 top-0",
+              "h-[450px] w-[450px] overflow-hidden absolute top-[40px] right-[40px] rounded-3xl",
               !isIntersecting && "invisible"
             )}
           >
@@ -153,8 +153,8 @@ export const Hero = () => {
               // @ts-ignore
               ref={canvasRef}
               style={{
-                width: 600,
-                height: 600,
+                width: 450,
+                height: 470,
                 maxWidth: "100%",
                 aspectRatio: 1,
               }}
