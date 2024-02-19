@@ -2,7 +2,6 @@
 
 import { Navbar } from "@/components/Navbar";
 import { ArrowUpRight } from "lucide-react";
-import Image from "next/image";
 
 export default function Page() {
   return (

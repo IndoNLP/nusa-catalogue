@@ -5,14 +5,14 @@ const nextConfig = {
    *
    * @see https://nextjs.org/docs/app/building-your-application/deploying/static-exports
    */
-  // output: "export",
+  output: "export",
 
   /**
    * Set base path. This is usually the slug of your repository.
    *
    * @see https://nextjs.org/docs/app/api-reference/next-config-js/basePath
    */
-  // basePath: "/seacrowd",
+  basePath: "/seacrowd-catalogue",
 
   /**
    * Disable server-based image optimization. Next.js does not support

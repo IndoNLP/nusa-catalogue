@@ -24,11 +24,11 @@ interface RouteProps {
 
 const routeList: RouteProps[] = [
   {
-    href: "/",
+    href: "/seacrowd-catalogue",
     label: "Data Catalogue",
   },
   {
-    href: "/contributors",
+    href: "/seacrowd-catalogue/contributors",
     label: "Contributors",
   },
 ];
@@ -38,8 +38,16 @@ export const Navbar = () => {
 
   const renderLogo = () => {
     return (
-      <a href="/seacrowd" className="ml-2 font-bold text-xl flex items-center">
-        <Image src={"/logo.png"} alt="logo" width={186} height={32} />
+      <a
+        href="/seacrowd-catalogue"
+        className="ml-2 font-bold text-xl flex items-center"
+      >
+        <Image
+          src={"/seacrowd-catalogue/logo.png"}
+          alt="logo"
+          width={186}
+          height={32}
+        />
       </a>
     );
   };
