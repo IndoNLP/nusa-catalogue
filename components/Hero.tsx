@@ -4,8 +4,6 @@ import { buttonVariants } from "./ui/button";
 import { Database, Github, MapPin } from "lucide-react";
 import createGlobe from "cobe";
 import { useEffect, useRef, useState } from "react";
-import { useIntersectionObserver } from "./helper/useIntersectionObserver";
-import { cn } from "@/lib/utils";
 
 const markers: any = [
   { location: [4.5353, 114.7277], size: 0.08, country: "Brunei" },
@@ -25,9 +23,6 @@ let currentPhi = Math.PI * -0.16 + Math.PI;
 let currentTheta = -0.06 * Math.PI;
 
 export const Hero = () => {
-  const { isIntersecting, ref } = useIntersectionObserver({
-    threshold: 0.5,
-  });
   const canvasRef = useRef();
   const locationToAngles = (lat: number, long: number) => {
     return [
@@ -37,6 +32,14 @@ export const Hero = () => {
   };
   const focusRef = useRef([currentPhi, currentTheta]);
   const [country, setCountry] = useState(null);
+
+  const randomCountry = () => {
+    const currentMarker = markers[Math.floor(Math.random() * markers.length)];
+    const [lat, long] = currentMarker.location;
+    focusRef.current = locationToAngles(lat, long);
+    setCountry(currentMarker.country);
+  };
+
   useEffect(() => {
     let globe: any;
     let width = 0;
@@ -80,12 +83,8 @@ export const Hero = () => {
       });
     }
 
-    let rotate = setInterval(() => {
-      const currentMarker = markers[Math.floor(Math.random() * markers.length)];
-      const [lat, long] = currentMarker.location;
-      focusRef.current = locationToAngles(lat, long);
-      setCountry(currentMarker.country);
-    }, 2500);
+    let rotate = setInterval(randomCountry, 2500);
+    randomCountry();
 
     return () => {
       clearInterval(rotate);
@@ -139,16 +138,8 @@ export const Hero = () => {
 
       <div className="bg-yellow-50 rounded-3xl w-full relative mt-20 lg:mt-0">
         <div className="h-[300px] w-full bg-yellow-50 rounded-3xl md:hidden"></div>
-        <div
-          className="h-[400px] w-full overflow-hidden absolute left-0 top-0 md:relative -mt-[100px] pointer-events-none"
-          ref={ref}
-        >
-          <div
-            className={cn(
-              "h-[450px] w-[450px] overflow-hidden absolute top-[40px] right-[40px] rounded-3xl",
-              !isIntersecting && "invisible"
-            )}
-          >
+        <div className="h-[400px] w-full overflow-hidden absolute left-0 top-0 md:relative -mt-[100px] pointer-events-none">
+          <div className="h-[450px] w-[450px] overflow-hidden absolute top-[40px] right-[40px] rounded-3xl">
             <canvas
               // @ts-ignore
               ref={canvasRef}
@@ -161,8 +152,10 @@ export const Hero = () => {
             />
           </div>
         </div>
-        <div className="absolute left-0 bottom-0 p-4 flex flex-row items-center">
-          <MapPin size={20} className="mr-2" /> {country}
+        <div className="absolute left-0 bottom-0 p-3 flex flex-row items-center">
+          <Button variant="outline" onClick={randomCountry}>
+            <MapPin size={20} className="mr-2" /> {country}
+          </Button>
         </div>
       </div>
     </section>
