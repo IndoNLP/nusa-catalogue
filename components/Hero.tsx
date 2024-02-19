@@ -2,10 +2,16 @@ import Link from "next/link";
 import { Button } from "./ui/button";
 import { buttonVariants } from "./ui/button";
 import { Database, Github, MapPin } from "lucide-react";
-import createGlobe from "cobe";
+import createGlobe, { Marker } from "cobe";
 import { useEffect, useRef, useState } from "react";
 
-const markers: any = [
+interface MarkerData {
+  location: number[];
+  size: number;
+  country: string;
+}
+
+const markers: MarkerData[] = [
   { location: [4.5353, 114.7277], size: 0.08, country: "Brunei" },
   { location: [12.5657, 104.991], size: 0.08, country: "Cambodia" },
   { location: [-8.8742, 125.7275], size: 0.08, country: "Timor-Leste" },
@@ -31,7 +37,7 @@ export const Hero = () => {
     ];
   };
   const focusRef = useRef([currentPhi, currentTheta]);
-  const [country, setCountry] = useState(null);
+  const [country, setCountry] = useState("");
 
   const randomCountry = () => {
     const currentMarker = markers[Math.floor(Math.random() * markers.length)];
@@ -63,7 +69,7 @@ export const Hero = () => {
         baseColor: [1, 1, 1],
         markerColor: [0, 0, 0],
         glowColor: [0.9, 0.9, 0.9],
-        markers,
+        markers: markers as unknown as Marker[],
         onRender: (state) => {
           state.phi = currentPhi;
           state.theta = currentTheta;

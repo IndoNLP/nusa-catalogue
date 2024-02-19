@@ -24,7 +24,7 @@ interface RouteProps {
 
 const routeList: RouteProps[] = [
   {
-    href: "/seacrowd",
+    href: "/",
     label: "Data Catalogue",
   },
   {
